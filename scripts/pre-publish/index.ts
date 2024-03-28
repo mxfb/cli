@@ -17,7 +17,7 @@ const git = Git()
 const isClean = (await git.status()).isClean()
 if (!isClean) {
   console.error('Git working directory must be clean.')
-  // process.exit(1)
+  process.exit(1)
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -70,13 +70,13 @@ const { upgradeType } = await prompts({
   ]
 })
 
-// if (upgradeType === 'patch') execSync('npm version patch')
-// else if (upgradeType === 'minor') execSync('npm version minor')
-// else if (upgradeType === 'major') execSync('npm version major')
-// else {
-//   console.error(`Invalid upgrade type: ${upgradeType}`)
-//   process.exit(1)
-// }
+if (upgradeType === 'patch') execSync('npm version patch')
+else if (upgradeType === 'minor') execSync('npm version minor')
+else if (upgradeType === 'major') execSync('npm version major')
+else {
+  console.error(`Invalid upgrade type: ${upgradeType}`)
+  process.exit(1)
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -153,15 +153,14 @@ try {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// await new Promise(resolve => {
-//   exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
-//     if (err !== null) console.error(err)
-//     if (stdout !== '') console.log(stdout)
-//     if (stderr !== '') console.log(stderr)
-//     resolve(true)
-//   })
-// })
-
+await new Promise(resolve => {
+  exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
+    if (err !== null) console.error(err)
+    if (stdout !== '') console.log(stdout)
+    if (stderr !== '') console.log(stderr)
+    resolve(true)
+  })
+})
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -169,6 +168,6 @@ try {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// console.log('Pre publish: done')
+console.log('Pre publish: done')
 process.exit(1)
 
