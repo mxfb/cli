@@ -118,7 +118,6 @@ const buildPkgJsonBinObj = (await listSubdirectoriesIndexes(BUILD, ['.js']))
       [name as string]: filePath as string
     }
   }, {} as Record<string, string>)
-console.log(buildPkgJsonBinObj)
 
 try {
   const parsed = JSON.parse(buildPkgJsonData) as PkgJson

@@ -15,8 +15,6 @@
     "build:src": "npm run build:scripts && rm -rf lib && npm run make:build && node .scripts/build/index.js",
     "prepublishOnly": "npm run build:src && node .scripts/pre-publish/index.js"
   },
-  "dependencies": {},
-  "peerDependencies": {},
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/prompts": "^2.4.9",
