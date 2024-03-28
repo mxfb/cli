@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "../.scripts",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "rootDir": ".",
+    "noUncheckedIndexedAccess": true,
+    "declaration": true
+  },
+  "include": ["**/*"],
+  "exclude": [
+    "../node_modules",
+    "../.scripts"
+  ]
+}
