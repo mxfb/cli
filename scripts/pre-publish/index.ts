@@ -1,9 +1,11 @@
 import { promises as fs } from 'node:fs'
+import path from 'node:path'
 import { exec, execSync } from 'node:child_process'
 import prompts from 'prompts'
 import semver from 'semver'
 import Git from 'simple-git'
 import { PKG_JSON, BUILD_PKG_JSON, BUILD } from '../_config/index.js'
+import { listSubdirectoriesIndexes } from '../_utils/index.js'
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -15,7 +17,7 @@ const git = Git()
 const isClean = (await git.status()).isClean()
 if (!isClean) {
   console.error('Git working directory must be clean.')
-  process.exit(1)
+  // process.exit(1)
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -68,13 +70,13 @@ const { upgradeType } = await prompts({
   ]
 })
 
-if (upgradeType === 'patch') execSync('npm version patch')
-else if (upgradeType === 'minor') execSync('npm version minor')
-else if (upgradeType === 'major') execSync('npm version major')
-else {
-  console.error(`Invalid upgrade type: ${upgradeType}`)
-  process.exit(1)
-}
+// if (upgradeType === 'patch') execSync('npm version patch')
+// else if (upgradeType === 'minor') execSync('npm version minor')
+// else if (upgradeType === 'major') execSync('npm version major')
+// else {
+//   console.error(`Invalid upgrade type: ${upgradeType}`)
+//   process.exit(1)
+// }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -104,6 +106,20 @@ type PkgJson = {
   peerDependencies?: Record<string, string> | undefined
 }
 let buildPkgJsonObj: PkgJson | null = null
+
+const buildPkgJsonBinObj = (await listSubdirectoriesIndexes(BUILD, ['.js']))
+  .map(indexPath => {
+    const parent = path.basename(path.dirname(indexPath))
+    return [parent, `./${parent}/index.js`]
+  })
+  .reduce((reduced, [name, filePath]) => {
+    return {
+      ...reduced,
+      [name as string]: filePath as string
+    }
+  }, {} as Record<string, string>)
+console.log(buildPkgJsonBinObj)
+
 try {
   const parsed = JSON.parse(buildPkgJsonData) as PkgJson
   buildPkgJsonObj = {
@@ -116,7 +132,7 @@ try {
     type: parsed.type,
     main: 'index.js',
     module: 'index.js',
-    bin: { /* Add the bin here */ },
+    bin: buildPkgJsonBinObj,
     dependencies: parsed.dependencies,
     peerDependencies: parsed.peerDependencies,
     devDependencies: parsed.devDependencies
@@ -137,14 +153,14 @@ try {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-await new Promise(resolve => {
-  exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
-    if (err !== null) console.error(err)
-    if (stdout !== '') console.log(stdout)
-    if (stderr !== '') console.log(stderr)
-    resolve(true)
-  })
-})
+// await new Promise(resolve => {
+//   exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
+//     if (err !== null) console.error(err)
+//     if (stdout !== '') console.log(stdout)
+//     if (stderr !== '') console.log(stderr)
+//     resolve(true)
+//   })
+// })
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
