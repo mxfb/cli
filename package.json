@@ -29,6 +29,6 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@mxfb/cli": "^0.0.4"
+    "@mxfb/cli": "0.0.5"
   }
 }

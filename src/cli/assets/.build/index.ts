@@ -13,6 +13,8 @@ if (assetsDirPath === undefined) {
 }
 
 const buildFolderPath = path.join(assetsDirPath, '../..')
-const commands = await fs.readdir(buildFolderPath)
-const outputPath = path.join(selfPath, '../list.txt')
+const commands = (await fs.readdir(buildFolderPath))
+  .filter(e => e !== 'package.json')
+  .sort()
+const outputPath = path.join(assetsDirPath, 'list.txt')
 await fs.writeFile(outputPath, commands.join('\n'), { encoding: 'utf-8' })
