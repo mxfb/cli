@@ -141,6 +141,11 @@ try {
     `${JSON.stringify(buildPkgJsonObj, null, 2)}\n`,
     { encoding: 'utf-8' }
   )
+  console.log(`Written ${BUILD_PKG_JSON}`)
+  execSync(`cat ${PKG_JSON}`)
+  execSync(`echo ''`)
+  execSync(`cat ${BUILD_PKG_JSON}`)
+  execSync(`echo ''`)
 } catch (err) {
   console.error(`Something went wrong while parsing build/package.json`)
   process.exit(1)
@@ -153,10 +158,6 @@ try {
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 await new Promise(resolve => {
-  execSync(`cat ${PKG_JSON}`)
-  execSync(`echo ''`)
-  execSync(`cat ${BUILD_PKG_JSON}`)
-  execSync(`echo ''`)
   exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
     if (err !== null) console.error(err)
     if (stdout !== '') console.log(stdout)
