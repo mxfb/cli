@@ -4,19 +4,14 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"],
+    "outDir": "./dist",
     "module": "ESNext",
-    "target": "ESNext",
-    "outDir": "../build",
-    "declaration": true,
     "moduleResolution": "Node",
+    "target": "ESNext",
+    "lib": ["ESNext"],
     "rootDir": ".",
     "noUncheckedIndexedAccess": true,
+    "declaration": false
   },
-  "include": ["**/*"],
-  "exclude": [
-    "../node_modules",
-    "../build",
-    "**/assets/.build/**/*"
-  ]
+  "include": ["./index.ts"]
 }
