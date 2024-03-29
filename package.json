@@ -27,5 +27,8 @@
     "semver": "^7.6.0",
     "simple-git": "^3.23.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@mxfb/cli": "^0.0.4"
   }
 }
