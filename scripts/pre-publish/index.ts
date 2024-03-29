@@ -142,9 +142,6 @@ try {
     { encoding: 'utf-8' }
   )
   console.log(`Written ${BUILD_PKG_JSON}`)
-  const pkCt = await fs.readFile(PKG_JSON, { encoding: 'utf-8' })
-  const buPkCt = await fs.readFile(BUILD_PKG_JSON, { encoding: 'utf-8' })
-  console.log(pkCt, '\n', buPkCt, '\n')
 } catch (err) {
   console.error(`Something went wrong while parsing build/package.json`)
   process.exit(1)
