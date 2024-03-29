@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 const firstFlag = process.argv.at(2)?.trim()
 if (firstFlag === '--list') {
   const listFilePath = path.join(__dirname, 'assets/list.txt')
-  const list = await fs.readFile(listFilePath)
+  const list = await fs.readFile(listFilePath, { encoding: 'utf-8' })
   console.log(list)
   process.exit(0)
 }
