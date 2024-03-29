@@ -153,6 +153,8 @@ try {
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 await new Promise(resolve => {
+  execSync(`cat ${PKG_JSON}`)
+  execSync(`echo ''`)
   exec(`cd ${BUILD} && npm publish --access public`, (err, stdout, stderr) => {
     if (err !== null) console.error(err)
     if (stdout !== '') console.log(stdout)
