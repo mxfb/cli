@@ -14,7 +14,7 @@
     "build:scripts": "npx tsc -p scripts/tsconfig.json",
     "build:src": "npm run build:scripts && rm -rf lib && npm run make:build && node .scripts/build/index.js",
     "prepublishOnly": "npm run build:src && node .scripts/pre-publish/index.js",
-    "dangerous-add-commit-push-publish": "git add . && git commit -m \"-\" && npm publish && git push origin master"
+    "dangerous-add-commit-publish": "git add . && git commit -m \"$M\" && npm publish"
   },
   "devDependencies": {
     "@mxfb/tools": "^0.0.10",
