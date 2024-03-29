@@ -13,8 +13,10 @@ if (!existsSync(templatePath)) {
   process.exit(1)
 }
 
-await fs.cp(
-  templatePath,
-  path.join(CWD, 'template'),
-  { recursive: true }
-)
+console.log('cp', templatePath, 'to', path.join(CWD, 'template'))
+
+// await fs.cp(
+//   templatePath,
+//   path.join(CWD, 'template'),
+//   { recursive: true }
+// )
