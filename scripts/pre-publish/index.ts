@@ -95,33 +95,29 @@ const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
   return assetsPath
 }))).filter((e): e is string => e !== undefined)
 
-console.log('===========')
-console.log(buildAssets)
-console.log('===========')
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  * Look for assets/.publish
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPath => {
-//   const buildFolderPath = path.join(assetsDirPath, '.publish')
-//   const buildIndexPath = path.join(buildFolderPath, 'index.ts')
-//   const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
-//   const buildFolderExists = existsSync(buildFolderPath)
-//   if (!buildFolderExists) return;
-//   const buildIndexExists = existsSync(buildIndexPath)
-//   const buildTsconfigExists = existsSync(buildTsconfigPath)
-//   if (!buildIndexExists || !buildTsconfigExists) {
-//     console.error(`Missing files inside ${buildFolderPath}`)
-//     console.error('Should contain index.ts and tsconfig.json in order to build')
-//     console.error('Build skipped.')
-//     await fs.rm(buildFolderPath, { recursive: true, force: true })
-//     return;
-//   }
-//   return buildFolderPath
-// }))).filter((e): e is string => e !== undefined)
+const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPath => {
+  const buildFolderPath = path.join(assetsDirPath, '.publish')
+  const buildIndexPath = path.join(buildFolderPath, 'index.ts')
+  const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
+  const buildFolderExists = existsSync(buildFolderPath)
+  if (!buildFolderExists) return;
+  const buildIndexExists = existsSync(buildIndexPath)
+  const buildTsconfigExists = existsSync(buildTsconfigPath)
+  if (!buildIndexExists || !buildTsconfigExists) {
+    console.error(`Missing files inside ${buildFolderPath}`)
+    console.error('Should contain index.ts and tsconfig.json in order to build')
+    console.error('Build skipped.')
+    await fs.rm(buildFolderPath, { recursive: true, force: true })
+    return;
+  }
+  return buildFolderPath
+}))).filter((e): e is string => e !== undefined)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
