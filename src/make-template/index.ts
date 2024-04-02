@@ -2,7 +2,7 @@ import process from 'node:process'
 import { promises as fs, existsSync } from 'node:fs'
 import url from 'node:url'
 import path from 'node:path'
-import { execSync } from 'node:child_process'
+import { exec, execSync } from 'node:child_process'
 import { program } from 'commander'
 import prompts from 'prompts'
 import readWriteFile from '@mxfb/tools/utils/node/read-write-file'
@@ -74,5 +74,15 @@ async function makeReact () {
   }, { encoding: 'utf-8' })
   
   // Install deps
-  execSync(`cd ${targetPath} && npm i`)
+  await new Promise((resolve, reject) => {
+    exec(`cd ${targetPath} && npm i`, (err, stdout, stderr) => {
+      if (err !== null) {
+        console.error(err)
+        return reject(err)
+      }
+      if (stdout !== '') console.log(stdout)
+      if (stderr !== '') console.log(stderr)
+      return resolve(true)
+    })
+  })
 }
