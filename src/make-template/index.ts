@@ -69,10 +69,10 @@ async function makeReact () {
   }, { encoding: 'utf-8' })
   
   // Install deps
-  const npmISubprocess = spawn(`cd ${targetPath} && npm i`, { stdio: 'inherit' })
+  const npmISubprocess = spawn(`cd ${targetPath} && npm i`, { stdio: 'inherit', shell: true })
   await new Promise((resolve, reject) => {
     npmISubprocess.on('exit', () => resolve(true))
-    // npmISubprocess.on('error', () => reject(false))
+    npmISubprocess.on('error', () => reject(false))
   })
   // await new Promise((resolve, reject) => {
   //   exec(`cd ${targetPath} && npm i`, (err, stdout, stderr) => {
