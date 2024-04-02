@@ -67,9 +67,6 @@ async function makeReact () {
     }
     return `${JSON.stringify(newContentObj, null, 2)}\n`
   }, { encoding: 'utf-8' })
-
-  // Rename project
-  await fs.rename(targetPath, path.join(CWD, projectName))
   
   // Install deps
   const npmISubprocess = spawn(`cd ${targetPath} && npm i`, { stdio: 'inherit', shell: true })
@@ -77,4 +74,7 @@ async function makeReact () {
     npmISubprocess.on('exit', () => resolve(true))
     npmISubprocess.on('error', () => reject(false))
   })
+
+  // Rename project
+  await fs.rename(targetPath, path.join(CWD, projectName))
 }
