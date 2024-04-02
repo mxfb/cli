@@ -5,6 +5,8 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { program, Command } from 'commander'
 
+console.log('i am cli')
+
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 

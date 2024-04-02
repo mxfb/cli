@@ -7,6 +7,8 @@ import { program } from 'commander'
 import prompts from 'prompts'
 import readWriteFile from '@mxfb/tools/utils/node/read-write-file'
 
+console.log('i am make-template')
+
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const CWD = process.cwd()
