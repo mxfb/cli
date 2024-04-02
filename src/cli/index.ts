@@ -28,6 +28,10 @@ program
   .description('print current version of the package')
   .action(printVersion)
 
+program
+  .command('help')
+  .action(program.help)
+
 program.parse(process.argv)
 
 async function listCommands () {
