@@ -70,13 +70,13 @@ const { upgradeType } = await prompts({
   ]
 })
 
-if (upgradeType === 'patch') execSync('npm version patch')
-else if (upgradeType === 'minor') execSync('npm version minor')
-else if (upgradeType === 'major') execSync('npm version major')
-else {
-  console.error(`Invalid upgrade type: ${upgradeType}`)
-  process.exit(1)
-}
+// if (upgradeType === 'patch') execSync('npm version patch')
+// else if (upgradeType === 'minor') execSync('npm version minor')
+// else if (upgradeType === 'major') execSync('npm version major')
+// else {
+//   console.error(`Invalid upgrade type: ${upgradeType}`)
+//   process.exit(1)
+// }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -125,42 +125,42 @@ const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPat
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// console.log('Assets to build:')
-// buildAssetsToBuild.forEach(buildFolderPath => console.log(` ${buildFolderPath}`))
-// await Promise.all(buildAssetsToBuild.map(async buildFolderPath => {
-//   const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
-//   await new Promise(resolve => {
-//     exec(`npx tsc -p ${buildTsconfigPath}`, (err, stdout, stderr) => {
-//       if (err !== null) console.error(err)
-//       if (stdout !== '') console.log(stdout)
-//       if (stderr !== '') console.log(stderr)
-//       resolve(true)
-//     })
-//   })
-//   const buildIndexTsPath = path.join(buildFolderPath, 'index.ts')
-//   const buildIndexJsPath = path.join(buildFolderPath, 'dist/index.js')
-//   const buildIndexJsExists = existsSync(buildIndexJsPath)
-//   if (!buildIndexJsExists) {
-//     console.error(`Something went wrong while transpiling ${buildIndexTsPath}`)
-//     console.error('Skipping build')
-//     await fs.rm(buildFolderPath, { recursive: true, force: true })
-//     console.log('.build dir removed:', buildFolderPath)
-//     return;
-//   }
-//   await new Promise(resolve => {
-//     const assetsDirPath = path.dirname(buildFolderPath)
-//     exec(`node ${buildIndexJsPath} ${assetsDirPath}`, (err, stdout, stderr) => {
-//       if (err !== null) console.error(err)
-//       if (stdout !== '') console.log(stdout)
-//       if (stderr !== '') console.log(stderr)
-//       resolve(true)
-//     })
-//   })
-//   console.log('Assets build completed:', buildIndexJsPath)
-//   await fs.rm(buildFolderPath, { recursive: true, force: true })
-//   console.log('.build dir removed:', buildFolderPath)
-//   return buildFolderPath
-// }))
+console.log('Assets to build:')
+buildAssetsToBuild.forEach(buildFolderPath => console.log(` ${buildFolderPath}`))
+await Promise.all(buildAssetsToBuild.map(async buildFolderPath => {
+  const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
+  await new Promise(resolve => {
+    exec(`npx tsc -p ${buildTsconfigPath}`, (err, stdout, stderr) => {
+      if (err !== null) console.error(err)
+      if (stdout !== '') console.log(stdout)
+      if (stderr !== '') console.log(stderr)
+      resolve(true)
+    })
+  })
+  const buildIndexTsPath = path.join(buildFolderPath, 'index.ts')
+  const buildIndexJsPath = path.join(buildFolderPath, 'dist/index.js')
+  const buildIndexJsExists = existsSync(buildIndexJsPath)
+  if (!buildIndexJsExists) {
+    console.error(`Something went wrong while transpiling ${buildIndexTsPath}`)
+    console.error('Skipping build')
+    await fs.rm(buildFolderPath, { recursive: true, force: true })
+    console.log('.build dir removed:', buildFolderPath)
+    return;
+  }
+  await new Promise(resolve => {
+    const assetsDirPath = path.dirname(buildFolderPath)
+    exec(`node ${buildIndexJsPath} ${assetsDirPath}`, (err, stdout, stderr) => {
+      if (err !== null) console.error(err)
+      if (stdout !== '') console.log(stdout)
+      if (stderr !== '') console.log(stderr)
+      resolve(true)
+    })
+  })
+  console.log('Assets build completed:', buildIndexJsPath)
+  await fs.rm(buildFolderPath, { recursive: true, force: true })
+  console.log('.build dir removed:', buildFolderPath)
+  return buildFolderPath
+}))
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
