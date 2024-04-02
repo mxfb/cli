@@ -43,10 +43,10 @@ async function makeReact () {
     console.error(`Could not find the template to copy at ${htmlTemplatePath}`)
     return process.exit(1)
   }
-  const targetPath = path.join(CWD, 'react-template')
+  const defaultTargetPath = path.join(CWD, 'react-template')
   
   // Copy
-  await fs.cp(htmlTemplatePath, targetPath, { recursive: true })
+  await fs.cp(htmlTemplatePath, defaultTargetPath, { recursive: true })
   const { projectName } = await prompts({
     name: 'projectName',
     message: 'Project name ? (for package.json name field)',
@@ -54,7 +54,7 @@ async function makeReact () {
   })
   
   // Custom name
-  const packageJsonPath = path.join(targetPath, 'package.json')
+  const packageJsonPath = path.join(defaultTargetPath, 'package.json')
   await readWriteFile(packageJsonPath, rawContent => {
     const content = typeof rawContent === 'string'
       ? rawContent
@@ -69,12 +69,19 @@ async function makeReact () {
   }, { encoding: 'utf-8' })
   
   // Install deps
-  const npmISubprocess = spawn(`cd ${targetPath} && npm i`, { stdio: 'inherit', shell: true })
+  const npmISubprocess = spawn(`cd ${defaultTargetPath} && npm i`, { stdio: 'inherit', shell: true })
   await new Promise((resolve, reject) => {
     npmISubprocess.on('exit', () => resolve(true))
     npmISubprocess.on('error', () => reject(false))
   })
 
   // Rename project
-  await fs.rename(targetPath, path.join(CWD, projectName))
+  const targetPath = path.join(CWD, projectName)
+  await fs.rename(defaultTargetPath, targetPath)
+
+  // Rename gitignore
+  await fs.rename(
+    path.join(targetPath, 'gitignore'),
+    path.join(targetPath, '.gitignore')
+  )
 }
