@@ -38,6 +38,8 @@ program
     subprocess.on('error', err => console.error(`Failed to start subprogram '${targetCommand}':`, err))
   })
 
+console.log('i am main')
+
 program.parse(process.argv)
 
 async function listCommands () {
