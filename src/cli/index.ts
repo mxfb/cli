@@ -28,17 +28,17 @@ program
   .action(async (...args) => {
     const [, command] = args as [any, Command]
     console.log(command.args)
+    console.log(process.argv)
     const [targetCommand] = command.args
     if (targetCommand === undefined) return program.help()
     const commandsList = await listCommands()
     if (!commandsList.includes(targetCommand)) return program.help()
-    const forwardedArgs = command.args.slice(1)
+    const originalArgs = process.argv.slice(2)
+    const forwardedArgs = originalArgs.slice(1)
     const subprogramPath = path.join(__dirname, '../', targetCommand, 'index.js')
     const subprocess = spawn(subprogramPath, forwardedArgs, { stdio: 'inherit' })
     subprocess.on('error', err => console.error(`Failed to start subprogram '${targetCommand}':`, err))
   })
-
-console.log('i am main')
 
 program.parse(process.argv)
 
