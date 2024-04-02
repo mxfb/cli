@@ -9,6 +9,7 @@ import readWriteFile from '@mxfb/tools/utils/node/read-write-file'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const CWD = process.cwd()
 
 program
   .name('@mxfb-cli/make-template')
@@ -16,25 +17,28 @@ program
   
 program
   .command('html')
-  .description('simple html project structure')
+  .description('make simple html project structure')
   .action(makeHtml)
 
 program
   .command('react')
-  .description('react + typescript project structure')
+  .description('make react + typescript project structure')
   .action(makeReact)
 
 program.parse(process.argv)
 
-const CWD = process.cwd()
-
 async function makeHtml () {
+  console.log('I make html')
+  console.log(__dirname)
   const htmlTemplatePath = path.join(__dirname, 'assets/html')
+  console.log(htmlTemplatePath)
   if (!existsSync(htmlTemplatePath)) {
     console.error(`Could not find the template to copy at ${htmlTemplatePath}`)
     return process.exit(1)
   }
+  console.log(CWD)
   const targetPath = path.join(CWD, 'html-template')
+  console.log(targetPath)
   await fs.cp(htmlTemplatePath, targetPath, { recursive: true })
 }
 
