@@ -70,13 +70,13 @@ const { upgradeType } = await prompts({
   ]
 })
 
-// if (upgradeType === 'patch') execSync('npm version patch')
-// else if (upgradeType === 'minor') execSync('npm version minor')
-// else if (upgradeType === 'major') execSync('npm version major')
-// else {
-//   console.error(`Invalid upgrade type: ${upgradeType}`)
-//   process.exit(1)
-// }
+if (upgradeType === 'patch') execSync('npm version patch')
+else if (upgradeType === 'minor') execSync('npm version minor')
+else if (upgradeType === 'major') execSync('npm version major')
+else {
+  console.error(`Invalid upgrade type: ${upgradeType}`)
+  process.exit(1)
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -86,7 +86,6 @@ const { upgradeType } = await prompts({
 
 const builtIndexes = await listSubdirectoriesIndexes(BUILD, ['.js'])
 const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
-  const parent = path.basename(path.dirname(indexPath))
   const assetsPath = path.join(indexPath, '../assets')
   const assetsExists = existsSync(assetsPath)
   if (!assetsExists) return;
@@ -237,14 +236,14 @@ try {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// await new Promise(resolve => {
-//   exec(`cd ${BUILD} && npm publish --access public --otp=${process.env.OTP}`, (err, stdout, stderr) => {
-//     if (err !== null) console.error(err)
-//     if (stdout !== '') console.log(stdout)
-//     if (stderr !== '') console.log(stderr)
-//     resolve(true)
-//   })
-// })
+await new Promise(resolve => {
+  exec(`cd ${BUILD} && npm publish --access public --otp=${process.env.OTP}`, (err, stdout, stderr) => {
+    if (err !== null) console.error(err)
+    if (stdout !== '') console.log(stdout)
+    if (stderr !== '') console.log(stderr)
+    resolve(true)
+  })
+})
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
