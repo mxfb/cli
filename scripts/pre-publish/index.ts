@@ -84,19 +84,23 @@ else {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// const builtIndexes = await listSubdirectoriesIndexes(BUILD, ['.js'])
-// const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
-//   const parent = path.basename(path.dirname(indexPath))
-//   const assetsPath = path.join(indexPath, '../assets')
-//   const assetsExists = existsSync(assetsPath)
-//   if (!assetsExists) return;
-//   const assetsIsDir = (await fs.stat(assetsPath)).isDirectory()
-//   if (!assetsIsDir) return;
-//   const assetsDestination = path.join(BUILD, parent, 'assets')
-//   await fs.cp(assetsPath, assetsDestination, { recursive: true })
-//   console.log('Assets dir copied:', assetsDestination)
-//   return assetsDestination
-// }))).filter((e): e is string => e !== undefined)
+const builtIndexes = await listSubdirectoriesIndexes(BUILD, ['.js'])
+const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
+  const parent = path.basename(path.dirname(indexPath))
+  const assetsPath = path.join(indexPath, '../assets')
+  const assetsExists = existsSync(assetsPath)
+  if (!assetsExists) return;
+  const assetsIsDir = (await fs.stat(assetsPath)).isDirectory()
+  if (!assetsIsDir) return;
+  const assetsDestination = path.join(BUILD, parent, 'assets')
+  await fs.cp(assetsPath, assetsDestination, { recursive: true })
+  console.log('Assets dir copied:', assetsDestination)
+  return assetsDestination
+}))).filter((e): e is string => e !== undefined)
+
+console.log('===========')
+console.log(buildAssets)
+console.log('===========')
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
