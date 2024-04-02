@@ -92,10 +92,7 @@ const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
   if (!assetsExists) return;
   const assetsIsDir = (await fs.stat(assetsPath)).isDirectory()
   if (!assetsIsDir) return;
-  const assetsDestination = path.join(BUILD, parent, 'assets')
-  await fs.cp(assetsPath, assetsDestination, { recursive: true })
-  console.log('Assets dir copied:', assetsDestination)
-  return assetsDestination
+  return assetsPath
 }))).filter((e): e is string => e !== undefined)
 
 console.log('===========')
