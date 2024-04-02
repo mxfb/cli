@@ -31,16 +31,10 @@ subCommands.forEach(subCommand => {
     .command(subCommand, { hidden: true })
     .allowUnknownOption(true)
     .action(async (...args) => {
-      console.log(args)
-      const [, command] = args as [any, Command]
-      console.log(command.args)
-      console.log(process.argv)
-      const [targetCommand] = command.args
+      const [_nodePath, _thisPath, targetCommand, ...forwardedArgs] = process.argv
       if (targetCommand === undefined) return program.help()
       const commandsList = await listCommands()
       if (!commandsList.includes(targetCommand)) return program.help()
-      const originalArgs = process.argv.slice(2)
-      const forwardedArgs = originalArgs.slice(1)
       const subprogramPath = path.join(__dirname, '../', targetCommand, 'index.js')
       const subprocess = spawn(subprogramPath, forwardedArgs, { stdio: 'inherit' })
       subprocess.on('error', err => console.error(`Failed to start subprogram '${targetCommand}':`, err))
