@@ -3,10 +3,7 @@ import { promises as fs } from 'node:fs'
 import url from 'node:url'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
-import { program, Command } from 'commander'
-
-console.log('i am cli')
-console.log(process.argv)
+import { program } from 'commander'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
