@@ -10,7 +10,23 @@ if (assetsDirPath === undefined) {
   process.exit(1)
 }
 
+/* * * * * * * * * * * * * * * * * *
+ *
+ * Create cli/assets/list.txt
+ *
+ * * * * * * * * * * * * * * * * * */
+
 const buildFolderPath = path.join(assetsDirPath, '../..')
 const commands = (await fs.readdir(buildFolderPath)).filter(e => e !== 'package.json').sort()
 const outputPath = path.join(assetsDirPath, 'list.txt')
 await fs.writeFile(outputPath, commands.join('\n'), { encoding: 'utf-8' })
+
+/* * * * * * * * * * * * * * * * * *
+ *
+ * Create cli/assets/version.txt
+ *
+ * * * * * * * * * * * * * * * * * */
+// const pkgJsonPath = path.join(assetsDirPath, '../../../package.json')
+// const pkgJsonContent = await fs.readFile(pkgJsonPath, { encoding: 'utf-8' })
+// const pkgJsonObj = JSON.parse(pkgJsonContent)
+// const { version } = pkgJsonObj
