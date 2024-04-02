@@ -2,9 +2,8 @@ import process from 'node:process'
 import { promises as fs } from 'node:fs'
 import url from 'node:url'
 import path from 'node:path'
-import { program } from 'commander'
-
-console.log('I AM CLI')
+import { spawn } from 'node:child_process'
+import { program, Command } from 'commander'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -16,19 +15,39 @@ program
 program
   .command('list')
   .description('list all the available commands')
-  .action(listCommands)
+  .action(printCommands)
 
 program
   .command('version')
   .description('print current version of the package')
   .action(printVersion)
 
+program
+  .command('*', { hidden: true })
+  .allowUnknownOption()
+  .action(async (...args) => {
+    const [, command] = args as [any, Command]
+    const [targetCommand] = command.args
+    if (targetCommand === undefined) return program.help()
+    const commandsList = await listCommands()
+    if (!commandsList.includes(targetCommand)) return program.help()
+    const forwardedArgs = command.args.slice(1)
+    const subprogramPath = path.join(__dirname, '../', targetCommand, 'index.js')
+    const subprocess = spawn(subprogramPath, forwardedArgs, { stdio: 'inherit' })
+    subprocess.on('error', err => console.error(`Failed to start subprogram '${targetCommand}':`, err))
+  })
+
 program.parse(process.argv)
 
 async function listCommands () {
   const listFilePath = path.join(__dirname, 'assets/list.txt')
   const list = await fs.readFile(listFilePath, { encoding: 'utf-8' })
-  console.log(list)
+  return list.split('\n').map(e => e.trim())
+}
+
+async function printCommands () {
+  const list = await listCommands()
+  console.log(list.join('\n'))
   return;
 }
 

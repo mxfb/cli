@@ -12,13 +12,21 @@ if (assetsDirPath === undefined) {
 
 /* * * * * * * * * * * * * * * * * *
  *
- * Update cli/assets/version.txt (see .build)
+ * Create cli/assets/list.txt
  *
  * * * * * * * * * * * * * * * * * */
 
-const pkgJsonPath = path.join(assetsDirPath, '../../../package.json')
-const pkgJsonContent = await fs.readFile(pkgJsonPath, { encoding: 'utf-8' })
-const pkgJsonObj = JSON.parse(pkgJsonContent)
-const { version } = pkgJsonObj
+const buildFolderPath = path.join(assetsDirPath, '../..')
+const commandsList = (await fs.readdir(buildFolderPath)).filter(e => e !== 'package.json').sort()
+const listFileOutputPath = path.join(assetsDirPath, 'list.txt')
+await fs.writeFile(listFileOutputPath, commandsList.join('\n'), { encoding: 'utf-8' })
+
+/* * * * * * * * * * * * * * * * * *
+ *
+ * Create cli/assets/version.txt
+ *
+ * * * * * * * * * * * * * * * * * */
+
+const version = 'developpment'
 const versonFileOutputPath = path.join(assetsDirPath, 'version.txt')
 await fs.writeFile(versonFileOutputPath, `${version}`, { encoding: 'utf-8' })
