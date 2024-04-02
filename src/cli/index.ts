@@ -4,6 +4,8 @@ import url from 'node:url'
 import path from 'node:path'
 import { program } from 'commander'
 
+console.log('I AM CLI')
+
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
