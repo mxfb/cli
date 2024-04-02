@@ -54,8 +54,8 @@ async function printCommands () {
         new Array(24).fill(' ') as string[],
         c.split('') as string[]
       ).join('')
-      if (c === 'cli') return `${twentyFourCharName} # npx @mxfb/cli --help`
-      return `${twentyFourCharName} # npx @mxfb/cli ${c} --help`
+      if (c === 'cli') return `${twentyFourCharName} # npx @mxfb/cli help`
+      return `${twentyFourCharName} # npx @mxfb/cli ${c} help`
     })
     .join('\n')
   console.log(output)
