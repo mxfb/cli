@@ -27,6 +27,7 @@ program
   .allowUnknownOption()
   .action(async (...args) => {
     const [, command] = args as [any, Command]
+    console.log(command.args)
     const [targetCommand] = command.args
     if (targetCommand === undefined) return program.help()
     const commandsList = await listCommands()
