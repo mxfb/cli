@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process'
 import { program, Command } from 'commander'
 
 console.log('i am cli')
+console.log(process.argv)
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -26,7 +27,7 @@ program
 
 program
   .command('*', { hidden: true })
-  .allowUnknownOption()
+  .allowUnknownOption(true)
   .action(async (...args) => {
     const [, command] = args as [any, Command]
     console.log(command.args)
