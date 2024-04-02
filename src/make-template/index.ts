@@ -2,10 +2,10 @@ import process from 'node:process'
 import { promises as fs, existsSync } from 'node:fs'
 import url from 'node:url'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import { program } from 'commander'
 import prompts from 'prompts'
 import readWriteFile from '@mxfb/tools/utils/node/read-write-file'
-import { execSync } from 'node:child_process'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -45,6 +45,7 @@ async function makeReact () {
     return process.exit(1)
   }
   const targetPath = path.join(CWD, 'react-template')
+  
   // Copy
   await fs.cp(htmlTemplatePath, targetPath, { recursive: true })
   const { projectName } = await prompts({
@@ -52,6 +53,7 @@ async function makeReact () {
     message: 'Project name ? (for package.json name field)',
     type: 'text'
   })
+  
   // Custom name
   const packageJsonPath = path.join(targetPath, 'package.json')
   await readWriteFile(packageJsonPath, rawContent => {
@@ -66,6 +68,7 @@ async function makeReact () {
     }
     return `${JSON.stringify(newContentObj, null, 2)}\n`
   }, { encoding: 'utf-8' })
+  
   // Install deps
   execSync(`cd ${targetPath} && npm i`)
 }
