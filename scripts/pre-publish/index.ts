@@ -83,19 +83,20 @@ else {
  * Look for assets/
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
-const builtIndexes = await listSubdirectoriesIndexes(BUILD, ['.js'])
-const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
-  const parent = path.basename(path.dirname(indexPath))
-  const assetsPath = path.join(indexPath, '../assets')
-  const assetsExists = existsSync(assetsPath)
-  if (!assetsExists) return;
-  const assetsIsDir = (await fs.stat(assetsPath)).isDirectory()
-  if (!assetsIsDir) return;
-  const assetsDestination = path.join(BUILD, parent, 'assets')
-  await fs.cp(assetsPath, assetsDestination, { recursive: true })
-  console.log('Assets dir copied:', assetsDestination)
-  return assetsDestination
-}))).filter((e): e is string => e !== undefined)
+
+// const builtIndexes = await listSubdirectoriesIndexes(BUILD, ['.js'])
+// const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
+//   const parent = path.basename(path.dirname(indexPath))
+//   const assetsPath = path.join(indexPath, '../assets')
+//   const assetsExists = existsSync(assetsPath)
+//   if (!assetsExists) return;
+//   const assetsIsDir = (await fs.stat(assetsPath)).isDirectory()
+//   if (!assetsIsDir) return;
+//   const assetsDestination = path.join(BUILD, parent, 'assets')
+//   await fs.cp(assetsPath, assetsDestination, { recursive: true })
+//   console.log('Assets dir copied:', assetsDestination)
+//   return assetsDestination
+// }))).filter((e): e is string => e !== undefined)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -103,23 +104,23 @@ const buildAssets = (await Promise.all(builtIndexes.map(async indexPath => {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPath => {
-  const buildFolderPath = path.join(assetsDirPath, '.publish')
-  const buildIndexPath = path.join(buildFolderPath, 'index.ts')
-  const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
-  const buildFolderExists = existsSync(buildFolderPath)
-  if (!buildFolderExists) return;
-  const buildIndexExists = existsSync(buildIndexPath)
-  const buildTsconfigExists = existsSync(buildTsconfigPath)
-  if (!buildIndexExists || !buildTsconfigExists) {
-    console.error(`Missing files inside ${buildFolderPath}`)
-    console.error('Should contain index.ts and tsconfig.json in order to build')
-    console.error('Build skipped.')
-    await fs.rm(buildFolderPath, { recursive: true, force: true })
-    return;
-  }
-  return buildFolderPath
-}))).filter((e): e is string => e !== undefined)
+// const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPath => {
+//   const buildFolderPath = path.join(assetsDirPath, '.publish')
+//   const buildIndexPath = path.join(buildFolderPath, 'index.ts')
+//   const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
+//   const buildFolderExists = existsSync(buildFolderPath)
+//   if (!buildFolderExists) return;
+//   const buildIndexExists = existsSync(buildIndexPath)
+//   const buildTsconfigExists = existsSync(buildTsconfigPath)
+//   if (!buildIndexExists || !buildTsconfigExists) {
+//     console.error(`Missing files inside ${buildFolderPath}`)
+//     console.error('Should contain index.ts and tsconfig.json in order to build')
+//     console.error('Build skipped.')
+//     await fs.rm(buildFolderPath, { recursive: true, force: true })
+//     return;
+//   }
+//   return buildFolderPath
+// }))).filter((e): e is string => e !== undefined)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -127,42 +128,42 @@ const buildAssetsToBuild = (await Promise.all(buildAssets.map(async assetsDirPat
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-console.log('Assets to build:')
-buildAssetsToBuild.forEach(buildFolderPath => console.log(` ${buildFolderPath}`))
-await Promise.all(buildAssetsToBuild.map(async buildFolderPath => {
-  const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
-  await new Promise(resolve => {
-    exec(`npx tsc -p ${buildTsconfigPath}`, (err, stdout, stderr) => {
-      if (err !== null) console.error(err)
-      if (stdout !== '') console.log(stdout)
-      if (stderr !== '') console.log(stderr)
-      resolve(true)
-    })
-  })
-  const buildIndexTsPath = path.join(buildFolderPath, 'index.ts')
-  const buildIndexJsPath = path.join(buildFolderPath, 'dist/index.js')
-  const buildIndexJsExists = existsSync(buildIndexJsPath)
-  if (!buildIndexJsExists) {
-    console.error(`Something went wrong while transpiling ${buildIndexTsPath}`)
-    console.error('Skipping build')
-    await fs.rm(buildFolderPath, { recursive: true, force: true })
-    console.log('.build dir removed:', buildFolderPath)
-    return;
-  }
-  await new Promise(resolve => {
-    const assetsDirPath = path.dirname(buildFolderPath)
-    exec(`node ${buildIndexJsPath} ${assetsDirPath}`, (err, stdout, stderr) => {
-      if (err !== null) console.error(err)
-      if (stdout !== '') console.log(stdout)
-      if (stderr !== '') console.log(stderr)
-      resolve(true)
-    })
-  })
-  console.log('Assets build completed:', buildIndexJsPath)
-  await fs.rm(buildFolderPath, { recursive: true, force: true })
-  console.log('.build dir removed:', buildFolderPath)
-  return buildFolderPath
-}))
+// console.log('Assets to build:')
+// buildAssetsToBuild.forEach(buildFolderPath => console.log(` ${buildFolderPath}`))
+// await Promise.all(buildAssetsToBuild.map(async buildFolderPath => {
+//   const buildTsconfigPath = path.join(buildFolderPath, 'tsconfig.json')
+//   await new Promise(resolve => {
+//     exec(`npx tsc -p ${buildTsconfigPath}`, (err, stdout, stderr) => {
+//       if (err !== null) console.error(err)
+//       if (stdout !== '') console.log(stdout)
+//       if (stderr !== '') console.log(stderr)
+//       resolve(true)
+//     })
+//   })
+//   const buildIndexTsPath = path.join(buildFolderPath, 'index.ts')
+//   const buildIndexJsPath = path.join(buildFolderPath, 'dist/index.js')
+//   const buildIndexJsExists = existsSync(buildIndexJsPath)
+//   if (!buildIndexJsExists) {
+//     console.error(`Something went wrong while transpiling ${buildIndexTsPath}`)
+//     console.error('Skipping build')
+//     await fs.rm(buildFolderPath, { recursive: true, force: true })
+//     console.log('.build dir removed:', buildFolderPath)
+//     return;
+//   }
+//   await new Promise(resolve => {
+//     const assetsDirPath = path.dirname(buildFolderPath)
+//     exec(`node ${buildIndexJsPath} ${assetsDirPath}`, (err, stdout, stderr) => {
+//       if (err !== null) console.error(err)
+//       if (stdout !== '') console.log(stdout)
+//       if (stderr !== '') console.log(stderr)
+//       resolve(true)
+//     })
+//   })
+//   console.log('Assets build completed:', buildIndexJsPath)
+//   await fs.rm(buildFolderPath, { recursive: true, force: true })
+//   console.log('.build dir removed:', buildFolderPath)
+//   return buildFolderPath
+// }))
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
