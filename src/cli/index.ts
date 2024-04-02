@@ -31,6 +31,7 @@ subCommands.forEach(subCommand => {
     .command(subCommand, { hidden: true })
     .allowUnknownOption(true)
     .action(async (...args) => {
+      console.log(args)
       const [, command] = args as [any, Command]
       console.log(command.args)
       console.log(process.argv)
