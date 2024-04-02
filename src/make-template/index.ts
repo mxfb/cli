@@ -72,7 +72,7 @@ async function makeReact () {
   const npmISubprocess = spawn(`cd ${targetPath} && npm i`, { stdio: 'inherit' })
   await new Promise((resolve, reject) => {
     npmISubprocess.on('exit', () => resolve(true))
-    npmISubprocess.on('error', () => reject(false))
+    // npmISubprocess.on('error', () => reject(false))
   })
   // await new Promise((resolve, reject) => {
   //   exec(`cd ${targetPath} && npm i`, (err, stdout, stderr) => {
