@@ -1,0 +1,30 @@
+{
+  "name": "dlbbm.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:src": "npx esbuild src/index.tsx --bundle --minify --outfile=dist/index.js --platform=browser --target=esnext --jsx-factory=React.createElement --jsx-fragment=React.Fragment",
+    "watch:src": "npm run build:src -- --watch",
+    "make:dist": "mkdir -p dist",
+    "make:pages": "mkdir -p pages",
+    "serve:dist": "npm run make:dist && npx http-server dist --port ${PORT} --cors -c-1",
+    "serve:pages": "npm run make:pages && npx http-server pages --port ${PORT} --cors -c-1",
+    "start": "npx concurrently -n 'watch:src  ,serve:dist ,serve:pages' 'npm run watch:src' 'PORT=${PORT_DIST:-3001} npm run serve:dist' 'PORT=${PORT_DIST:-3000} npm run serve:pages'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.72",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.20.2",
+    "http-server": "^14.1.1",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@types/react-dom": "^18.2.22",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
