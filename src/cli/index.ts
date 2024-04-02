@@ -47,7 +47,17 @@ async function listCommands () {
 
 async function printCommands () {
   const list = await listCommands()
-  console.log(list.join('\n'))
+  const output = list
+    .map(c => {
+      const twentyFourCharName = Object.assign(
+        new Array(24).fill(' ') as string[],
+        c.split('') as string[]
+      ).join('')
+      if (c === 'cli') return `${twentyFourCharName} # npx @mxfb/cli --help`
+      return `${twentyFourCharName} # npx @mxfb/cli ${c} --help`
+    })
+    .join('\n')
+  console.log(output)
   return;
 }
 
