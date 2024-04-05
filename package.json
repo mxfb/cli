@@ -1,5 +1,5 @@
 {
-  "name": "@mxfb/cli",
+  "name": "@design-edito/cli",
   "version": "0.0.56",
   "description": "",
   "type": "module",
@@ -7,7 +7,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maximefabas/mxfb-cli"
+    "url": "https://github.com/lm-design-edito/lm-cli"
   },
   "scripts": {
     "make:build": "mkdir -p build",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^12.0.1",
-    "@mxfb/tools": "^0.0.18",
+    "@design-edito/tools": "^0.0.19",
     "@types/node": "^20.11.30",
     "@types/prompts": "^2.4.9",
     "@types/semver": "^7.5.8",
