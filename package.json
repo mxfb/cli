@@ -13,8 +13,7 @@
     "make:build": "mkdir -p build",
     "build:scripts": "npx tsc -p scripts/tsconfig.json",
     "build:src": "npm run build:scripts && rm -rf build && npm run make:build && node .scripts/build/index.js",
-    "prepublishOnly": "npm run build:src && node .scripts/pre-publish/index.js",
-    "dangerous-add-commit-publish": "git add . && git commit -m \"$M\" && npm publish"
+    "prepublishOnly": "npm run build:src && node .scripts/pre-publish/index.js"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^12.0.1",
