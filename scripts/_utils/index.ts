@@ -1,5 +1,4 @@
 import path from 'node:path'
-
 import listSubpaths from '@design-edito/tools/utils/node/list-subpaths'
 import isInDirectory from '@design-edito/tools/utils/node/is-in-directory'
 import findDuplicatesInArray from '@design-edito/tools/utils/agnostic/find-duplicates-in-array'
