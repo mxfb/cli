@@ -1,6 +1,8 @@
 import path from 'node:path'
 
 import listSubpaths from '@design-edito/tools/utils/node/list-subpaths'
+import isInDirectory from '@design-edito/tools/utils/node/is-in-directory'
+import findDuplicatesInArray from '@design-edito/tools/utils/agnostic/find-duplicates-in-array'
 
 export async function listSubdirectoriesIndexes (root: string, extensions?: string[]): Promise<string[]> {
   return await listSubpaths(root, {
@@ -18,16 +20,9 @@ export async function listSubdirectoriesIndexes (root: string, extensions?: stri
   })
 }
 
-export function isInDirectory (childPath: string, parentPath: string) {
-  const rel = path.relative(parentPath, childPath)
-  return rel !== '' && !rel.startsWith('..')
-}
+export { isInDirectory }
 
 export function findFirstDuplicate<T> (arr: T[]) {
-  const seen = new Set<T>()
-  for (const item of arr) {
-    if (seen.has(item)) return item
-    seen.add(item)
-  }
-  return null
+  const found = findDuplicatesInArray(arr, true)
+  return found.at(0) ?? null
 }
