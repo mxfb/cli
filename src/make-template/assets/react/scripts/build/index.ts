@@ -1,7 +1,12 @@
-import path from 'node:path'
 import esbuild, { BuildOptions } from 'esbuild'
+import path from 'node:path'
 import { sassPlugin, postcssModules } from 'esbuild-sass-plugin'
 import inlineImageModule from 'esbuild-plugin-inline-image'
+
+const PREACT = process.env.PREACT === 'true'
+const WATCH = process.env.WATCH === 'true'
+
+console.log(`scripts/build/index.ts PREACT=${PREACT} WATCH=${WATCH}`)
 
 const options: BuildOptions = {
   format: 'esm',
@@ -14,19 +19,26 @@ const options: BuildOptions = {
   target: ['esnext'],
   tsconfig: path.join(process.cwd(), 'src/tsconfig.json'),
   logLevel: 'info',
-  jsxFactory: 'React.createElement',
-  jsxFragment: 'React.Fragment',
+  jsxFactory: PREACT ? 'h' : 'React.createElement',
+  jsxFragment: PREACT ? 'FRAGMENT' : 'React.Fragment',
   plugins: [
     inlineImageModule({ limit: -1 }),
     sassPlugin({ filter: /\.module\.scss$/, type: 'css', transform: postcssModules({}) }),
     sassPlugin({ filter: /.scss$/, type: 'css' })
-  ]
-} 
+  ],
+  alias: PREACT ? {
+    'react': 'preact/compat',
+    'react-dom/test-utils': 'preact/test-utils',
+    'react-dom': 'preact/compat',
+    'react/jsx-runtime': 'preact/jsx-runtime'
+  } : {}
+}
 
-if (process.env.WATCH === 'true') {
+if (WATCH) {
   const ctx = await esbuild.context(options)
   await ctx.watch()
   console.log('watching...')
 } else {
-  esbuild.build(options)
+  await esbuild.build(options)
+  console.log('built.')
 }
