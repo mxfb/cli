@@ -18,10 +18,3 @@ export async function listSubdirectoriesIndexes (root: string, extensions?: stri
     }
   })
 }
-
-export { isInDirectory }
-
-export function findFirstDuplicate<T> (arr: T[]) {
-  const found = findDuplicatesInArray(arr, true)
-  return found.at(0) ?? null
-}
