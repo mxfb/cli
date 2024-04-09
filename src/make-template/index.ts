@@ -5,7 +5,7 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { program } from 'commander'
 import prompts from 'prompts'
-import readWriteFile from '@design-edito/tools/utils/node/read-write-file'
+import readWriteFile from '@design-edito/tools/utils/node/read-write-file/index.js'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
