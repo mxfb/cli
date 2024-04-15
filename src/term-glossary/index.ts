@@ -1,3 +1,5 @@
+// [WIP] use commander
+
 console.log(`: <<'END'
 
 ‹ TERM GLOSSARY ›
