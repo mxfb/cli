@@ -1,9 +1,12 @@
+import process from 'node:process'
 import path from 'node:path'
 import { existsSync, promises as fs } from 'node:fs'
 import esbuild from 'esbuild'
 import { BUILD, SRC } from '../_config/index.js'
 import { listSubdirectoriesIndexes } from '../_utils/index.js'
 import { exec, execSync } from 'node:child_process'
+
+const libToBuild = process.argv[2]
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -12,19 +15,21 @@ import { exec, execSync } from 'node:child_process'
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 const entryPoints = await listSubdirectoriesIndexes(SRC, ['.js', '.ts'])
-await Promise.all(entryPoints.map(async indexPath => {
+const filteredEntryPoints = entryPoints.filter(entryPointPath => entryPointPath.includes(libToBuild ?? ''))
+const actualEntryPoints = filteredEntryPoints.length === 0 ? entryPoints : filteredEntryPoints
+await Promise.all(actualEntryPoints.map(async indexPath => {
   return await new Promise((resolve, reject) => {
     const parentDir = path.basename(path.dirname(indexPath))
     esbuild.build({
       entryPoints: [indexPath],
       outdir: path.join(BUILD, parentDir),
       bundle: true,
-      external: ['@design-edito/tools', 'commander', 'prompts'],
+      external: ['@design-edito/tools', 'commander', 'jsdom', 'prompts', 'puppeteer'],
       chunkNames: '_chunks/[name]-[hash]',
       minify: true,
       splitting: false,
       platform: 'node',
-      sourcemap: false,
+      sourcemap: true,
       format: 'esm',
       target: ['esnext']
     }).then(() => {
@@ -61,7 +66,7 @@ await Promise.all(outputs.map(async indexPath => {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-const buildAssets = (await Promise.all(entryPoints.map(async indexPath => {
+const buildAssets = (await Promise.all(actualEntryPoints.map(async indexPath => {
   const parent = path.basename(path.dirname(indexPath))
   const assetsPath = path.join(indexPath, '../assets')
   const assetsExists = existsSync(assetsPath)
