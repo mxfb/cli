@@ -3,6 +3,7 @@ import path from 'node:path'
 import readWriteFile from '@design-edito/tools/utils/node/read-write-file/index.js'
 
 import simpleGit from 'simple-git'
+import { spawn } from 'node:child_process'
 const git = simpleGit()
 
 const status = await git.status()
@@ -27,10 +28,30 @@ const gitignoreAddition = `# NPM RUN PR-UPSTREAM
 .gitignore
 /src/tumblr-crawler/
 /scripts/pr-upstream/
-# END NPM RUN PR-UPSTREAM`
+# END NPM RUN PR-UPSTREAM\n`
+
+// Edit .gitignore
 await readWriteFile(gitignorePath, content => {
   if (typeof content === 'string') return gitignoreAddition + content
   return gitignoreAddition + content.toString('utf-8')
+}, { encoding: 'utf-8' })
+
+await new Promise((resolve, reject) => {
+  const prProcess = spawn('gh', ['pr', 'create', '--fill'], { stdio: 'inherit' })
+  prProcess.on('close', code => {
+    if (code === 0) {
+      console.log('Pull request created')
+      return resolve(true)
+    }
+    console.error(`Error while creating pull request (code: ${code})`)
+    return reject(code)
+  })
+})
+
+// Reset .gitignore
+await readWriteFile(gitignorePath, content => {
+  if (typeof content === 'string') return content.split(gitignoreAddition).join('')
+  return content.toString('utf-8').split(gitignoreAddition).join('')
 }, { encoding: 'utf-8' })
 
 console.log("so you wanna pr upstream ?")
