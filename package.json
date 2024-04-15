@@ -15,8 +15,7 @@
     "exec:build": "node .scripts/build/index.js",
     "exec:pre-publish": "node .scripts/pre-publish/index.js",
     "build:src": "npm run build:scripts && rm -rf build && npm run make:build && npm run exec:build",
-    "prepublishOnly": "npm run build:src && npm run exec:pre-publish",
-    "pr-upstream": "npm run build:scripts && node .scripts/pr-upstream/index.js"
+    "prepublishOnly": "npm run build:src && npm run exec:pre-publish"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^12.0.1",
