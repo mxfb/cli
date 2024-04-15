@@ -6,6 +6,8 @@ import simpleGit from 'simple-git'
 import { spawn } from 'node:child_process'
 const git = simpleGit()
 
+// Check git status
+
 const status = await git.status()
 
 if (status.current !== 'master') {
@@ -23,6 +25,8 @@ if (status.not_added.length > 0) {
   process.exit(1)
 }
 
+// Edit .gitignore
+
 const gitignorePath = path.join(process.cwd(), '.gitignore')
 const gitignoreAddition = `# NPM RUN PR-UPSTREAM
 .gitignore
@@ -30,14 +34,15 @@ const gitignoreAddition = `# NPM RUN PR-UPSTREAM
 /scripts/pr-upstream/
 # END NPM RUN PR-UPSTREAM\n`
 
-// Edit .gitignore
 await readWriteFile(gitignorePath, content => {
   if (typeof content === 'string') return gitignoreAddition + content
   return gitignoreAddition + content.toString('utf-8')
 }, { encoding: 'utf-8' })
 
+// Make pull request
+
 await new Promise((resolve, reject) => {
-  const prProcess = spawn('gh', ['pr', 'create', '--fill'], { stdio: 'inherit' })
+  const prProcess = spawn('gh', ['pr', 'create', '--repo', 'lm-design-edito/lm-cli', '--fill'], { stdio: 'inherit' })
   prProcess.on('close', code => {
     if (code === 0) {
       console.log('Pull request created')
@@ -49,11 +54,8 @@ await new Promise((resolve, reject) => {
 })
 
 // Reset .gitignore
+
 await readWriteFile(gitignorePath, content => {
   if (typeof content === 'string') return content.split(gitignoreAddition).join('')
   return content.toString('utf-8').split(gitignoreAddition).join('')
 }, { encoding: 'utf-8' })
-
-console.log("so you wanna pr upstream ?")
-
-
