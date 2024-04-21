@@ -24,7 +24,7 @@ await Promise.all(actualEntryPoints.map(async indexPath => {
       entryPoints: [indexPath],
       outdir: path.join(BUILD, parentDir),
       bundle: true,
-      external: ['@design-edito/tools', 'commander', 'jsdom', 'prompts', 'puppeteer'],
+      external: ['@design-edito/tools', 'commander', 'prompts'],
       chunkNames: '_chunks/[name]-[hash]',
       minify: true,
       splitting: false,
