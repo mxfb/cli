@@ -9,16 +9,16 @@ import wait from '@design-edito/tools/utils/agnostic/wait/index.js'
 import roundNumbers from '@design-edito/tools/utils/agnostic/round-numbers/index.js'
 import { beforeForcedExit, beforeExit } from '@design-edito/tools/utils/node/process-exit/index.js'
 
-const browser = await puppeteer.launch()
-beforeExit(async () => browser.close())
-beforeForcedExit(async () => browser.close())
+// const browser = await puppeteer.launch()
+// beforeExit(async () => browser.close())
+// beforeForcedExit(async () => browser.close())
 
 program
   .name('@design-edito/tumblr-crawler')
   .description('Crawls a Tumblr blog')
 
 program
-  .command('shallow')
+  .command('fetch')
   .description('Fetch all pages DOM content')
   .argument('url', 'Root URL of the tumblr blog')
   .action(async inputUrl => {
@@ -44,12 +44,12 @@ program
     await fs.mkdir(outputPath, { recursive: true })
     await fs.writeFile(outputShallowJsonPath, shallowJsonContent, { encoding: 'utf-8' })
     console.log('Wrote data at', outputShallowJsonPath)
-    await browser.close()
+    // await browser.close()
   })
 
 program
-  .command('analyze')
-  .description('Analyzes post data from the outputs of tumblr-crawler shallow <url>')
+  .command('extract-posts')
+  .description('Axtracts post data from the outputs of tumblr-crawler fetch <url>')
   .action(async () => {
     const { shallowJsonPath } = await prompts({
       type: 'text',
@@ -59,12 +59,41 @@ program
     })
     const shallowJsonContent = await fs.readFile(shallowJsonPath, { encoding: 'utf-8' })
     const shallowJsonObj = JSON.parse(shallowJsonContent) as ShallowJson
-    const analyzedPages = await analyzePages(shallowJsonObj)
-    const postsDataObj = Object.fromEntries(analyzedPages)
+    const extractedPages = await extractPages(shallowJsonObj)
+    const postsDataObj = Object.fromEntries(extractedPages)
     const postsDataContent = JSON.stringify(postsDataObj, null, 2)
-    const analyzedPath = path.join(path.dirname(shallowJsonPath), 'analyzed.json')
-    await fs.writeFile(analyzedPath, postsDataContent, { encoding: 'utf-8' })
-    await browser.close()
+    const extractedPath = path.join(path.dirname(shallowJsonPath), 'extracted.json')
+    await fs.writeFile(extractedPath, postsDataContent, { encoding: 'utf-8' })
+    // await browser.close()
+  })
+
+program
+  .command('fill-posts')
+  .description('Fills missing post data')
+  .action(async () => {
+    const { extractedJsonPath } = await prompts({
+      type: 'text',
+      name: 'extractedJsonPath',
+      message: 'Please enter a extracted.json file path',
+      initial: `${process.cwd()}/.tmblrcrwlr/extracted.json`
+    })
+    const extractedJsonContent = await fs.readFile(extractedJsonPath, { encoding: 'utf-8' })
+    const extractedJsonObj = JSON.parse(extractedJsonContent) as Record<string, PostData>
+    let okLength = 0
+    let koLength = 0
+    Object.entries(extractedJsonObj).forEach(([_id, postData]) => {
+      const { youtube_id, youtube_title, post_content } = postData
+      if (youtube_id === null || youtube_title === null || post_content === null) {
+        koLength ++
+        const { id, date, type, url, youtube_id, youtube_title, post_content } = postData
+        console.log({ id, date, type, url, youtube_id, youtube_title, post_content })
+      }
+      else okLength ++
+    })
+    console.log({
+      ok: okLength,
+      ko: koLength
+    })
   })
   
 program.parse(process.argv)
@@ -164,11 +193,11 @@ type PostData = {
   youtube_title: string | null
 }
 
-async function analyzePages (shallowJson: ShallowJson): Promise<Map<string, PostData>> {
+async function extractPages (shallowJson: ShallowJson): Promise<Map<string, PostData>> {
   const postsData = new Map<string, PostData>()
   for (const shallowPage of shallowJson) {
-    const analyzedPage = await analysePage(shallowPage)
-    analyzedPage?.forEach((postData, postId) => postsData.set(postId, postData))
+    const extractedPage = await analysePage(shallowPage)
+    extractedPage?.forEach((postData, postId) => postsData.set(postId, postData))
   }
   return postsData
 }
