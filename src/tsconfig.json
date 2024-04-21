@@ -17,6 +17,7 @@
   "exclude": [
     "../node_modules",
     "../build",
-    "**/assets/.build/**/*"
+    "**/assets/.build/**/*",
+    "make-template/assets/**/*"
   ]
 }
