@@ -2,7 +2,7 @@ import process from 'node:process'
 import path from 'node:path'
 import { promises as fs } from 'node:fs'
 import prompts from 'prompts'
-import puppeteer from 'puppeteer'
+import { parse as dateParse, format as dateFormat } from 'date-fns'
 import { program } from 'commander'
 import { JSDOM } from 'jsdom'
 import wait from '@design-edito/tools/utils/agnostic/wait/index.js'
@@ -67,8 +67,18 @@ program
     // await browser.close()
   })
 
+type OutputPostData = {
+  publishOn: string | null,
+  publishOnRaw: string | null,
+  songTitle: string | null,
+  youtubeId: string | null,
+  youtubeTitle: string | null,
+  postUrl: string | null,
+  postId: string | null
+}
+
 program
-  .command('fill-posts')
+  .command('output')
   .description('Fills missing post data')
   .action(async () => {
     const { extractedJsonPath } = await prompts({
@@ -79,21 +89,23 @@ program
     })
     const extractedJsonContent = await fs.readFile(extractedJsonPath, { encoding: 'utf-8' })
     const extractedJsonObj = JSON.parse(extractedJsonContent) as Record<string, PostData>
-    let okLength = 0
-    let koLength = 0
+    const output: OutputPostData[] = []
     Object.entries(extractedJsonObj).forEach(([_id, postData]) => {
-      const { youtube_id, youtube_title, post_content } = postData
-      if (youtube_id === null || youtube_title === null || post_content === null) {
-        koLength ++
-        const { id, date, type, url, youtube_id, youtube_title, post_content } = postData
-        console.log({ id, date, type, url, youtube_id, youtube_title, post_content })
-      }
-      else okLength ++
+      const { id, date, url, youtube_id, youtube_title, post_content } = postData
+      const dt = date !== null ? dateParse(date, 'EEE. MMMM d, yyyy \'@\' h:mm a', new Date()).toISOString() : null
+      output.push({
+        publishOn: dt,
+        publishOnRaw: date,
+        songTitle: post_content,
+        youtubeId: youtube_id,
+        youtubeTitle: youtube_title,
+        postUrl: url,
+        postId: id
+      })
     })
-    console.log({
-      ok: okLength,
-      ko: koLength
-    })
+    const jsonOutput = JSON.stringify(output, null, 2)
+    const outputPath = path.join(path.dirname(extractedJsonPath), 'output.json')
+    await fs.writeFile(outputPath, jsonOutput, { encoding: 'utf-8' })
   })
   
 program.parse(process.argv)
