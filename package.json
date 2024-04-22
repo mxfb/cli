@@ -1,5 +1,5 @@
 {
-  "name": "@design-edito/cli",
+  "name": "@mxfb/cli",
   "version": "0.0.62",
   "description": "",
   "type": "module",
@@ -7,7 +7,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lm-design-edito/lm-cli"
+    "url": "https://github.com/mxfb/cli"
   },
   "scripts": {
     "make:build": "mkdir -p build",
