@@ -28,7 +28,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@design-edito/tools": "^0.0.30",
+    "@mxfb/tools": "^0.0.31",
     "commander": "^12.0.0",
     "date-fns": "^3.6.0",
     "jsdom": "^24.0.0",

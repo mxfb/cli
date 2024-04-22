@@ -5,16 +5,16 @@ import prompts from 'prompts'
 import { parse as dateParse, format as dateFormat } from 'date-fns'
 import { program } from 'commander'
 import { JSDOM } from 'jsdom'
-import wait from '@design-edito/tools/utils/agnostic/wait/index.js'
-import roundNumbers from '@design-edito/tools/utils/agnostic/round-numbers/index.js'
-import { beforeForcedExit, beforeExit } from '@design-edito/tools/utils/node/process-exit/index.js'
+import wait from '@mxfb/tools/utils/agnostic/wait/index.js'
+import roundNumbers from '@mxfb/tools/utils/agnostic/round-numbers/index.js'
+import { beforeForcedExit, beforeExit } from '@mxfb/tools/utils/node/process-exit/index.js'
 
 // const browser = await puppeteer.launch()
 // beforeExit(async () => browser.close())
 // beforeForcedExit(async () => browser.close())
 
 program
-  .name('@design-edito/tumblr-crawler')
+  .name('@mxfb/tumblr-crawler')
   .description('Crawls a Tumblr blog')
 
 program

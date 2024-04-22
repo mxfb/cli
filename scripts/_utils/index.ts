@@ -1,7 +1,7 @@
 import path from 'node:path'
-import listSubpaths from '@design-edito/tools/utils/node/list-subpaths/index.js'
-import isInDirectory from '@design-edito/tools/utils/node/is-in-directory/index.js'
-import findDuplicatesInArray from '@design-edito/tools/utils/agnostic/find-duplicates-in-array/index.js'
+import listSubpaths from '@mxfb/tools/utils/node/list-subpaths/index.js'
+import isInDirectory from '@mxfb/tools/utils/node/is-in-directory/index.js'
+import findDuplicatesInArray from '@mxfb/tools/utils/agnostic/find-duplicates-in-array/index.js'
 
 export async function listSubdirectoriesIndexes (root: string, extensions?: string[]): Promise<string[]> {
   return await listSubpaths(root, {

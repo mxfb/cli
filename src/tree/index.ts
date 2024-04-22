@@ -1,6 +1,6 @@
 import { program } from 'commander'
-import listSubpaths from '@design-edito/tools/utils/node/list-subpaths/index.js'
-import isInDirectory from '@design-edito/tools/utils/node/is-in-directory/index.js'
+import listSubpaths from '@mxfb/tools/utils/node/list-subpaths/index.js'
+import isInDirectory from '@mxfb/tools/utils/node/is-in-directory/index.js'
 
 const CWD = process.cwd()
 
@@ -11,7 +11,7 @@ type SubpathData = {
 }
 
 program
-  .name('@design-edito/tree')
+  .name('@mxfb/tree')
   .description('List subpaths from the current working directory')
   .argument('[depth]', 'Depth (optional, defaults to 0)')
   .option('-f, --files [bool]', 'Include files', parseBoolean, true)
