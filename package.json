@@ -28,7 +28,11 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@mxfb/tools": "^0.0.32",
+=======
+    "@design-edito/tools": "^0.0.32",
+>>>>>>> upstream/master
     "commander": "^12.0.0",
     "date-fns": "^3.6.0",
     "jsdom": "^24.0.0",
