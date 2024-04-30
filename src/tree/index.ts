@@ -1,6 +1,6 @@
 import { program } from 'commander'
-import listSubpaths from '@design-edito/tools/utils/node/list-subpaths/index.js'
-import isInDirectory from '@design-edito/tools/utils/node/is-in-directory/index.js'
+import listSubpaths from '@mxfb/tools/utils/node/list-subpaths/index.js'
+import isInDirectory from '@mxfb/tools/utils/node/is-in-directory/index.js'
 
 const CWD = process.cwd()
 
@@ -11,20 +11,20 @@ type SubpathData = {
 }
 
 program
-  .name('@design-edito/tree')
+  .name('@mxfb/tree')
   .description('List subpaths from the current working directory')
-  .argument('[depth]', 'Depth (optional)')
+  .argument('[depth]', 'Depth (optional, defaults to 0)')
   .option('-f, --files [bool]', 'Include files', parseBoolean, true)
   .option('-H, --hidden [bool]', 'Include hidden files', parseBoolean, true)
   .option('-d, --directories [bool]', 'Include directories', parseBoolean, true)
   .option('-s, --symlinks [bool]', 'Include symlinks', parseBoolean, true)
   .option('-F, --follow [bool]', 'Follow symlinks', parseBoolean, false)
   .option('-u, --unique [bool]', 'Ensures followed symlinks contents don\'t create duplicates', parseBoolean, false)
-  .option('-e, --exclude [pattern]', 'List of patterns to exclude from the result')
-  .option('-i, --include [pattern]', 'List of patterns to include to the result')
+  .option('-e, --exclude [pattern]', 'Regexp patterns to exclude from the result')
+  .option('-i, --include [pattern]', 'Regexp patterns to include in the result')
   .action(async (_depth, options) => {
-    const depth = _depth !== undefined ? parseInt(_depth) : undefined
-    if (Number.isNaN(depth ?? 0)) {
+    const depth = _depth !== undefined ? parseInt(_depth) : 0
+    if (Number.isNaN(depth)) {
       console.error('Depth should be a number')
       return process.exit(1)
     }

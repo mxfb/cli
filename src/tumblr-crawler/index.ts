@@ -2,6 +2,7 @@ import process from 'node:process'
 import path from 'node:path'
 import { promises as fs } from 'node:fs'
 import prompts from 'prompts'
+<<<<<<< HEAD
 import puppeteer from 'puppeteer'
 import { program } from 'commander'
 import { JSDOM } from 'jsdom'
@@ -19,6 +20,25 @@ program
 
 program
   .command('shallow')
+=======
+import { parse as dateParse, format as dateFormat } from 'date-fns'
+import { program } from 'commander'
+import { JSDOM } from 'jsdom'
+import wait from '@mxfb/tools/utils/agnostic/wait/index.js'
+import roundNumbers from '@mxfb/tools/utils/agnostic/round-numbers/index.js'
+import { beforeForcedExit, beforeExit } from '@mxfb/tools/utils/node/process-exit/index.js'
+
+// const browser = await puppeteer.launch()
+// beforeExit(async () => browser.close())
+// beforeForcedExit(async () => browser.close())
+
+program
+  .name('@mxfb/tumblr-crawler')
+  .description('Crawls a Tumblr blog')
+
+program
+  .command('fetch')
+>>>>>>> origin/master
   .description('Fetch all pages DOM content')
   .argument('url', 'Root URL of the tumblr blog')
   .action(async inputUrl => {
@@ -44,12 +64,21 @@ program
     await fs.mkdir(outputPath, { recursive: true })
     await fs.writeFile(outputShallowJsonPath, shallowJsonContent, { encoding: 'utf-8' })
     console.log('Wrote data at', outputShallowJsonPath)
+<<<<<<< HEAD
     await browser.close()
   })
 
 program
   .command('analyze')
   .description('Analyzes post data from the outputs of tumblr-crawler shallow <url>')
+=======
+    // await browser.close()
+  })
+
+program
+  .command('extract-posts')
+  .description('Axtracts post data from the outputs of tumblr-crawler fetch <url>')
+>>>>>>> origin/master
   .action(async () => {
     const { shallowJsonPath } = await prompts({
       type: 'text',
@@ -59,12 +88,62 @@ program
     })
     const shallowJsonContent = await fs.readFile(shallowJsonPath, { encoding: 'utf-8' })
     const shallowJsonObj = JSON.parse(shallowJsonContent) as ShallowJson
+<<<<<<< HEAD
     const analyzedPages = await analyzePages(shallowJsonObj)
     const postsDataObj = Object.fromEntries(analyzedPages)
     const postsDataContent = JSON.stringify(postsDataObj, null, 2)
     const analyzedPath = path.join(path.dirname(shallowJsonPath), 'analyzed.json')
     await fs.writeFile(analyzedPath, postsDataContent, { encoding: 'utf-8' })
     await browser.close()
+=======
+    const extractedPages = await extractPages(shallowJsonObj)
+    const postsDataObj = Object.fromEntries(extractedPages)
+    const postsDataContent = JSON.stringify(postsDataObj, null, 2)
+    const extractedPath = path.join(path.dirname(shallowJsonPath), 'extracted.json')
+    await fs.writeFile(extractedPath, postsDataContent, { encoding: 'utf-8' })
+    // await browser.close()
+  })
+
+type OutputPostData = {
+  publishOn: string | null,
+  publishOnRaw: string | null,
+  songTitle: string | null,
+  youtubeId: string | null,
+  youtubeTitle: string | null,
+  postUrl: string | null,
+  postId: string | null
+}
+
+program
+  .command('output')
+  .description('Fills missing post data')
+  .action(async () => {
+    const { extractedJsonPath } = await prompts({
+      type: 'text',
+      name: 'extractedJsonPath',
+      message: 'Please enter a extracted.json file path',
+      initial: `${process.cwd()}/.tmblrcrwlr/extracted.json`
+    })
+    const extractedJsonContent = await fs.readFile(extractedJsonPath, { encoding: 'utf-8' })
+    const extractedJsonObj = JSON.parse(extractedJsonContent) as Record<string, PostData>
+    const output: OutputPostData[] = []
+    Object.entries(extractedJsonObj).forEach(([_id, postData]) => {
+      const { id, date, url, youtube_id, youtube_title, post_content } = postData
+      const dt = date !== null ? dateParse(date, 'EEE. MMMM d, yyyy \'@\' h:mm a', new Date()).toISOString() : null
+      output.push({
+        publishOn: dt,
+        publishOnRaw: date,
+        songTitle: post_content,
+        youtubeId: youtube_id,
+        youtubeTitle: youtube_title,
+        postUrl: url,
+        postId: id
+      })
+    })
+    const jsonOutput = JSON.stringify(output, null, 2)
+    const outputPath = path.join(path.dirname(extractedJsonPath), 'output.json')
+    await fs.writeFile(outputPath, jsonOutput, { encoding: 'utf-8' })
+>>>>>>> origin/master
   })
   
 program.parse(process.argv)
@@ -164,11 +243,19 @@ type PostData = {
   youtube_title: string | null
 }
 
+<<<<<<< HEAD
 async function analyzePages (shallowJson: ShallowJson): Promise<Map<string, PostData>> {
   const postsData = new Map<string, PostData>()
   for (const shallowPage of shallowJson) {
     const analyzedPage = await analysePage(shallowPage)
     analyzedPage?.forEach((postData, postId) => postsData.set(postId, postData))
+=======
+async function extractPages (shallowJson: ShallowJson): Promise<Map<string, PostData>> {
+  const postsData = new Map<string, PostData>()
+  for (const shallowPage of shallowJson) {
+    const extractedPage = await analysePage(shallowPage)
+    extractedPage?.forEach((postData, postId) => postsData.set(postId, postData))
+>>>>>>> origin/master
   }
   return postsData
 }

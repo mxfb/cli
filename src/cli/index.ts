@@ -9,8 +9,8 @@ const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 program
-  .name('@design-edito/cli')
-  .description('The home of @design-edito/cli\'s project')
+  .name('@mxfb/cli')
+  .description('The home of @mxfb/cli\'s project')
   
 program
   .command('list')
@@ -54,8 +54,8 @@ async function printCommands () {
         new Array(24).fill(' ') as string[],
         c.split('') as string[]
       ).join('')
-      if (c === 'cli') return `${twentyFourCharName} # npx @design-edito/cli help`
-      return `${twentyFourCharName} # npx @design-edito/cli ${c} help`
+      if (c === 'cli') return `${twentyFourCharName} # npx @mxfb/cli help`
+      return `${twentyFourCharName} # npx @mxfb/cli ${c} help`
     })
     .join('\n')
   console.log(output)

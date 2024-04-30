@@ -5,14 +5,14 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { program } from 'commander'
 import prompts from 'prompts'
-import readWriteFile from '@design-edito/tools/utils/node/read-write-file/index.js'
+import readWriteFile from '@mxfb/tools/utils/node/read-write-file/index.js'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const CWD = process.cwd()
 
 program
-  .name('@design-edito/make-template')
+  .name('@mxfb/make-template')
   .description('Generate in cwd a project template')
   
 program
