@@ -1,6 +1,12 @@
 #!/bin/bash
 
-ROOT_DIR=$(pwd)
+if [ "$#" -ne 2 ]; then
+  echo "2 arguments expected Usage: $0 <lemonde_path> <mxfb_path>"
+  exit 1
+fi
+
+LMDIRPATH="$1"
+MXFBDIRPATH="$2"
 
 function bold () {
   echo "\033[1m$1\033[m"
@@ -22,13 +28,15 @@ function relative () {
   if [[ -z "$1" ]]; then
     throw "Missing arguments. Usage: relative <path>"
   fi
-  (cd "$1" && pwd) | sed "s|^$ROOT_DIR/||"
+  (cd "$1" && pwd) | sed "s|^$HOME/||"
 }
 
 function prompt_continue () {
   read -p "$(bold "Continue?") (y/n) " cont
   if [[ "$cont" != "y" ]]; then
+    echo ""
     echo $(bold "Bye.")
+    echo ""
     exit 0
   else 
     echo "\n"
@@ -162,40 +170,42 @@ function publish () {
 echo "\n"
 
 # LM TOOLS
-git_status "$ROOT_DIR/le-monde/lm-tools"
-git_pull_master "$ROOT_DIR/le-monde/lm-tools"
-npm_install "$ROOT_DIR/le-monde/lm-tools"
-build "$ROOT_DIR/le-monde/lm-tools" "build:src"
-publish "$ROOT_DIR/le-monde/lm-tools"
+git_status "$LMDIRPATH/lm-tools"
+git_pull_master "$LMDIRPATH/lm-tools"
+npm_install "$LMDIRPATH/lm-tools"
+build "$LMDIRPATH/lm-tools" "build:src"
+git_status "$LMDIRPATH/lm-tools"
+publish "$LMDIRPATH/lm-tools"
 
 # LM CLI
-git_status "$ROOT_DIR/le-monde/lm-cli"
-git_pull_master "$ROOT_DIR/le-monde/lm-cli"
-npm_install "$ROOT_DIR/le-monde/lm-cli" "@design-edito/tools@latest"
-build "$ROOT_DIR/le-monde/lm-cli" "build:src"
-publish "$ROOT_DIR/le-monde/lm-cli"
+git_status "$LMDIRPATH/lm-cli"
+git_pull_master "$LMDIRPATH/lm-cli"
+npm_install "$LMDIRPATH/lm-cli" "@design-edito/tools@latest"
+build "$LMDIRPATH/lm-cli" "build:src"
+git_status "$LMDIRPATH/lm-cli"
+publish "$LMDIRPATH/lm-cli"
 
 # MXFB TOOLS
-git_status "$ROOT_DIR/maximefabas/tools"
-git_pull_master "$ROOT_DIR/maximefabas/tools"
-git_fetch_upstream_master "$ROOT_DIR/maximefabas/tools"
-git_merge_upstream_master "$ROOT_DIR/maximefabas/tools"
-git_status "$ROOT_DIR/maximefabas/tools"
-git_push_master "$ROOT_DIR/maximefabas/tools"
-npm_install "$ROOT_DIR/maximefabas/tools"
-build "$ROOT_DIR/maximefabas/tools" "build:src"
-publish "$ROOT_DIR/maximefabas/tools"
+git_status "$MXFBDIRPATH/tools"
+git_pull_master "$MXFBDIRPATH/tools"
+git_fetch_upstream_master "$MXFBDIRPATH/tools"
+git_merge_upstream_master "$MXFBDIRPATH/tools"
+git_status "$MXFBDIRPATH/tools"
+git_push_master "$MXFBDIRPATH/tools"
+npm_install "$MXFBDIRPATH/tools"
+build "$MXFBDIRPATH/tools" "build:src"
+publish "$MXFBDIRPATH/tools"
 
 # MXFB CLI
-git_status "$ROOT_DIR/maximefabas/cli"
-git_pull_master "$ROOT_DIR/maximefabas/cli"
-git_fetch_upstream_master "$ROOT_DIR/maximefabas/cli"
-git_merge_upstream_master "$ROOT_DIR/maximefabas/cli"
-git_status "$ROOT_DIR/maximefabas/cli"
-git_push_master "$ROOT_DIR/maximefabas/cli"
-npm_install "$ROOT_DIR/maximefabas/cli" "@mxfb/tools@latest"
-build "$ROOT_DIR/maximefabas/cli" "build:src"
-publish "$ROOT_DIR/maximefabas/cli"
+git_status "$MXFBDIRPATH/cli"
+git_pull_master "$MXFBDIRPATH/cli"
+git_fetch_upstream_master "$MXFBDIRPATH/cli"
+git_merge_upstream_master "$MXFBDIRPATH/cli"
+git_status "$MXFBDIRPATH/cli"
+git_push_master "$MXFBDIRPATH/cli"
+npm_install "$MXFBDIRPATH/cli" "@mxfb/tools@latest"
+build "$MXFBDIRPATH/cli" "build:src"
+publish "$MXFBDIRPATH/cli"
 
 # END
 echo "$(bold "Everything done. Bye.")\n"

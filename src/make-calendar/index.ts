@@ -4,12 +4,10 @@ import {
   endOfMonth,
   getWeek,
   eachWeekOfInterval,
-  startOfWeek,
   endOfWeek,
   format as dateFormat,
   getMonth,
-  getDate,
-  getDay
+  getDate
 } from 'date-fns'
 
 type WeekData = {
