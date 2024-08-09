@@ -1,8 +1,8 @@
 import path from 'node:path'
-import listSubpaths from '@design-edito/tools/utils/node/list-subpaths/index.js'
+import { Subpaths } from '@design-edito/tools/node/files/subpaths/index.js'
 
 export async function listSubdirectoriesIndexes (root: string, extensions?: string[]): Promise<string[]> {
-  return await listSubpaths(root, {
+  return await Subpaths.list(root, {
     directories: false,
     symlinks: false,
     hidden: false,
