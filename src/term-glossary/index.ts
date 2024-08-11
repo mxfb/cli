@@ -22,14 +22,11 @@ console.log(`: <<'END'
       git push origin master
 
 
-<<<<<<< HEAD
-=======
 2. Processes & IP
 
       lsof -i :<port>                   # Liste les process utilisant le port <port>
       ps aux | grep <processName>       # Liste les process en cours en filtrant sur le nom
 
->>>>>>> origin/master
 END
 
 `)

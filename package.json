@@ -19,21 +19,24 @@
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.6",
-    "@types/node": "^20.11.30",
+    "@types/node": "^22.1.0",
     "@types/prompts": "^2.4.9",
     "@types/puppeteer": "^7.0.4",
     "@types/semver": "^7.5.8",
-    "esbuild": "^0.20.2",
-    "semver": "^7.6.0",
-    "simple-git": "^3.23.0",
-    "typescript": "^5.4.3"
+    "esbuild": "^0.23.0",
+    "semver": "^7.6.3",
+    "simple-git": "^3.25.0",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@mxfb/tools": "^0.0.43",
-    "commander": "^12.0.0",
+    "@mxfb/tools": "^0.1.1",
+    "commander": "^12.1.0",
     "date-fns": "^3.6.0",
     "jsdom": "^24.0.0",
     "prompts": "^2.4.2",
     "puppeteer": "^22.6.5"
+  },
+  "overrides": {
+    "ws": ">8.17.0"
   }
 }

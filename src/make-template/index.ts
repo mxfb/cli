@@ -5,7 +5,7 @@ import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { program } from 'commander'
 import prompts from 'prompts'
-import readWriteFile from '@mxfb/tools/utils/node/read-write-file/index.js'
+import { Files } from '@mxfb/tools/node/files'
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -55,7 +55,7 @@ async function makeReact () {
   
   // Custom name
   const packageJsonPath = path.join(defaultTargetPath, 'package.json')
-  await readWriteFile(packageJsonPath, rawContent => {
+  await Files.readWrite(packageJsonPath, rawContent => {
     const content = typeof rawContent === 'string'
       ? rawContent
       : rawContent.toString()

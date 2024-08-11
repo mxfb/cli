@@ -1,6 +1,6 @@
 import { program } from 'commander'
-import listSubpaths from '@mxfb/tools/utils/node/list-subpaths/index.js'
-import isInDirectory from '@mxfb/tools/utils/node/is-in-directory/index.js'
+import { isInDirectory } from '@mxfb/tools/node/files/is-in-directory'
+import { Subpaths } from '@mxfb/tools/node/files/subpaths'
 
 const CWD = process.cwd()
 
@@ -28,7 +28,7 @@ program
       console.error('Depth should be a number')
       return process.exit(1)
     }
-    const subpaths = await listSubpaths(CWD, {
+    const subpaths = await Subpaths.list(CWD, {
       maxDepth: depth,
       files: options.files,
       hidden: options.hidden,
