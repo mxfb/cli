@@ -236,8 +236,14 @@ try {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+const { otp } = await prompts({
+  name: 'otp',
+  type: 'text',
+  message: 'Enter your NPM OTP token'
+})
+
 await new Promise(resolve => {
-  exec(`cd ${BUILD} && npm publish --access public --otp=${process.env.OTP}`, (err, stdout, stderr) => {
+  exec(`cd ${BUILD} && npm publish --access public --otp=${otp}`, (err, stdout, stderr) => {
     if (err !== null) console.error(err)
     if (stdout !== '') console.log(stdout)
     if (stderr !== '') console.log(stderr)
