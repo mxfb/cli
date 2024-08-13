@@ -1,9 +1,10 @@
 {
-  "name": "lm-publisher",
+  "name": "-",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build:src": "npx esbuild --bundle src/bin/start.ts --outdir=dist --minify --sourcemap --platform=node",
+    "build:src": "npx esbuild --bundle src/bin/start.ts --outdir=dist --sourcemap --platform=node --format=esm --external:debug --external:express --external:cookie-parser --external:morgan",
     "watch:src": "npm run build:src && npx chokidar 'src/**/*' -c 'npm run build:src'",
     "serve": "npx nodemon ./dist/start.js",
     "start:nowatch": "npm run build:src && npm run serve",

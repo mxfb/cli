@@ -1,6 +1,6 @@
 import http from 'node:http'
 import debugModule from 'debug'
-import app from '../app'
+import app from '../app.js'
 
 const debug = debugModule('<<@mxfb/cli----replace-with-name>>:server')
 const port = normalizePort(process.env.PORT ?? '3000')
