@@ -1,0 +1,29 @@
+{
+  "name": "lm-publisher",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build:src": "npx esbuild --bundle src/bin/start.ts --outdir=dist --minify --sourcemap --platform=node",
+    "watch:src": "npm run build:src && npx chokidar 'src/**/*' -c 'npm run build:src'",
+    "serve": "npx nodemon ./dist/start.js",
+    "start:nowatch": "npm run build:src && npm run serve",
+    "start": "npx concurrently -n 'watch:src ,serve     ' 'npm run watch:src' 'npm run serve'"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.19.2",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.2.0",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.4"
+  }
+}
