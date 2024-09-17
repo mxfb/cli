@@ -1,10 +1,23 @@
 import http from 'node:http'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import express from 'express'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
 import debugModule from 'debug'
-import app from '../app.js'
+import indexRouter from './routes/index.js'
 
 const debug = debugModule('<<@mxfb/cli----replace-with-name>>:server')
 const port = normalizePort(process.env.PORT ?? '3000')
+const app = express()
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', indexRouter)
 app.set('port', port)
 
 const server = http.createServer(app)
