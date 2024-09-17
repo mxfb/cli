@@ -122,8 +122,8 @@ async function makeExpress () {
     return `${JSON.stringify(newContentObj, null, 2)}\n`
   }, { encoding: 'utf-8' })
 
-  // Custom project name in src/bin/start.ts
-  const binStartTsPath = path.join(defaultTargetPath, 'src/bin/start.ts')
+  // Custom project name in src/index.ts
+  const binStartTsPath = path.join(defaultTargetPath, 'src/index.ts')
   await Files.readWrite(binStartTsPath, rawContent => {
     const originalContent = typeof rawContent === 'string'
       ? rawContent
