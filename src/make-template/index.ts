@@ -19,7 +19,7 @@ program
   .command('express')
   .description('make express.js + typescript project structure')
   .action(makeExpress)
-  
+
 program
   .command('html')
   .description('make simple html project structure')
