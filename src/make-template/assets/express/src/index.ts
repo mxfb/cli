@@ -20,7 +20,7 @@ const PUBLIC = path.join(ROOT, 'public')
 app.use(express.static(PUBLIC))
 
 // Routes
-app.get('/', (req, res) => { res.json({ data: true }) })
+app.get('/some-route', (req, res) => { res.json({ data: true }) })
 
 // Start server
 serve(app)
