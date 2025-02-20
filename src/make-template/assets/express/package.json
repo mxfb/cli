@@ -1,30 +1,34 @@
 {
-  "name": "-",
+  "name": "<<@mxfb/cli----replace-with-name>>",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build:src": "npx esbuild --bundle src/index.ts --outdir=dist --sourcemap --platform=node --format=esm --external:debug --external:express --external:cookie-parser --external:morgan",
+    "build:src:public": "npx cpx 'src/public/**/*' dist/public",
+    "check:src": "npx tsc -p src/tsconfig.json --noEmit",
+    "build:src": "node esbuild.config.js && npm run build:src:public",
     "watch:src": "npm run build:src && npx chokidar 'src/**/*' -c 'npm run build:src'",
     "serve": "npx nodemon ./dist/index.js",
     "start:nowatch": "npm run build:src && npm run serve",
     "start": "npx concurrently -n 'watch:src ,serve     ' 'npm run watch:src' 'npm run serve'"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "^4.19.2",
-    "morgan": "~1.9.1"
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "debug": "^4.4.0",
+    "esbuild": "^0.25.0",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.7",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^22.2.0",
+    "@types/node": "^22.13.4",
     "chokidar-cli": "^3.0.0",
-    "concurrently": "^8.2.2",
-    "esbuild": "^0.23.0",
-    "typescript": "^5.5.4"
+    "concurrently": "^9.1.2"
   }
 }
