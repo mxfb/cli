@@ -8,8 +8,8 @@ import { serve } from './www'
 
 // App setup
 const app = express()
-app.use(cors()) // [WIP] configure cors and allowed origins
-app.use(logger('dev')) // [WIP] configure logger for prod an all
+app.use(cors())
+app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -20,7 +20,7 @@ const PUBLIC = path.join(ROOT, 'public')
 app.use(express.static(PUBLIC))
 
 // Routes
-app.get('/', (req, res) => res.send({ data: true }))
+app.get('/', (req, res) => { res.json({ data: true }) })
 
 // Start server
 serve(app)
