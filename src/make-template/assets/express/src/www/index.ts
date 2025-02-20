@@ -9,7 +9,7 @@ interface NodeError extends Error {
 
 export function serve (app: Express) {
   const port = normalizePort(process.env.PORT ?? '3000')
-  const debug = debugModule('<<@mxfb/cli----replace-with-name>>:server')
+  const debug = debugModule('<<@design-edito/cli----replace-with-name>>:server')
   const server = http.createServer(app)
   app.set('port', port)
   server.listen(port)

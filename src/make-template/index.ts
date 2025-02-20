@@ -133,7 +133,7 @@ async function makeExpress () {
     const content = typeof rawContent === 'string'
       ? rawContent
       : rawContent.toString()
-    return content.replaceAll('<<@mxfb/cli----replace-with-name>>', projectName)
+    return content.replaceAll('<<@design-edito/cli----replace-with-name>>', projectName)
   }, { encoding: 'utf-8' })
 
   // Custom project name in src/www/index.ts
@@ -142,7 +142,7 @@ async function makeExpress () {
     const originalContent = typeof rawContent === 'string'
       ? rawContent
       : rawContent.toString()
-    return originalContent.replaceAll('<<@mxfb/cli----replace-with-name>>', projectName)
+    return originalContent.replaceAll('<<@design-edito/cli----replace-with-name>>', projectName)
   }, { encoding: 'utf-8' })
 
   // Install deps
@@ -187,7 +187,7 @@ async function makeExpressApi () {
     const content = typeof rawContent === 'string'
       ? rawContent
       : rawContent.toString()
-    return content.replaceAll('<<@mxfb/cli----replace-with-name>>', projectName)
+    return content.replaceAll('<<@design-edito/cli----replace-with-name>>', projectName)
   }, { encoding: 'utf-8' })
 
   // Custom project name in src/www/index.ts
@@ -196,7 +196,7 @@ async function makeExpressApi () {
     const originalContent = typeof rawContent === 'string'
       ? rawContent
       : rawContent.toString()
-    return originalContent.replaceAll('<<@mxfb/cli----replace-with-name>>', projectName)
+    return originalContent.replaceAll('<<@design-edito/cli----replace-with-name>>', projectName)
   }, { encoding: 'utf-8' })
 
   // Install deps
