@@ -4,9 +4,9 @@ import { program } from 'commander'
 program
   .name('@design-edito/serve')
   .description('Quickly spawn a HTTP server')
-  .argument('[port]', 'Depth (optional, defaults to 3000)', '3000')
-  .option('-c, --cache <seconds>', 'Cache duration in seconds (default: -1)', '-1')
-  .option('--cors', 'Enable CORS (default: false)', false)
+  .argument('[port]', 'Depth', '3000')
+  .option('-c, --cache <seconds>', 'Cache duration in seconds', '-1')
+  .option('--cors', 'Enable CORS', false)
   .action(async (port, options) => {
     spawn('npx', [
       'http-server',
