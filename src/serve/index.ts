@@ -10,12 +10,14 @@ program
   .action(async (port, options) => {
     const { cache, cors } = options
     const numericPort = parseInt(port)
-    spawn('npx', [
+    const numericCache = parseInt(cache)
+    const httpServerOptions = [
       'http-server',
-      '--port', Number.isNaN(numericPort) ? 3000 : numericPort,
-      '--cache', cache,
-      '--cors', typeof cors === 'boolean' ? cors : false,
-    ], { stdio: 'inherit' })
+      '--port', Number.isNaN(numericPort) ? '3000' : numericPort.toString(),
+      '--cache', Number.isNaN(numericCache) ? '-1' : numericCache.toString()
+    ]
+    if (cors) httpServerOptions.push('--cors')
+    spawn('npx', httpServerOptions, { stdio: 'inherit' })
     const onShutdown = () => {
       console.log('Exiting...')
       process.exit(0)
