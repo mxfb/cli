@@ -8,11 +8,13 @@ program
   .option('-c, --cache <seconds>', 'Cache duration in seconds', '-1')
   .option('--cors', 'Enable CORS', false)
   .action(async (port, options) => {
+    const { cache, cors } = options
+    const numericPort = parseInt(port)
     spawn('npx', [
       'http-server',
-      '--port', port,
-      '--cache', options.cache,
-      '--cors', options.cors,
+      '--port', Number.isNaN(numericPort) ? 3000 : numericPort,
+      '--cache', cache,
+      '--cors', typeof cors === 'boolean' ? cors : false,
     ], { stdio: 'inherit' })
     const onShutdown = () => {
       console.log('Exiting...')
