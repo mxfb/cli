@@ -18,17 +18,17 @@
     "prepublishOnly": "npm run build:src && npm run exec:pre-publish"
   },
   "devDependencies": {
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.15.29",
     "@types/prompts": "^2.4.9",
-    "@types/semver": "^7.5.8",
-    "esbuild": "^0.25.0",
-    "semver": "^7.7.1",
+    "@types/semver": "^7.7.0",
+    "esbuild": "^0.25.5",
+    "semver": "^7.7.2",
     "simple-git": "^3.27.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@design-edito/tools": "^0.1.49",
-    "commander": "^13.1.0",
+    "@design-edito/tools": "^0.1.69",
+    "commander": "^14.0.0",
     "prompts": "^2.4.2"
   },
   "overrides": {
