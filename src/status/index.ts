@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { spawn } from 'child_process'
 import { program } from 'commander'
 
 program
@@ -7,13 +7,11 @@ program
   .allowUnknownOption(true)
   .arguments('[args...]')
   .action((args: string[]) => {
-    const cmd = `git status ${args.join(' ')}`
-
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) console.log('\nERR\n', error)
-      if (stderr) console.log('\nstderr:\n', stderr)
-      if (stdout) console.log('\nstdout:\n', stdout)
-    })
+    spawn(
+      'git',
+      ['-c', 'color.ui=always', 'status', ...args],
+      { stdio: 'inherit' }
+    ).on('exit', code => process.exit(code ?? 0))
   })
 
 program.parse(process.argv)

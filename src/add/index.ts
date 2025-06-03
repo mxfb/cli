@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { spawn } from 'child_process'
 import { program } from 'commander'
 
 program
@@ -8,11 +8,11 @@ program
   .arguments('[args...]')
   .action((args: string[]) => {
     const finalArgs = args.length > 0 ? args.join(' ') : '.'
-    exec(`git add ${finalArgs}`, (error, stdout, stderr) => {
-      if (error) console.log('\nERR\n', error)
-      if (stderr) console.log('\nstderr:\n', stderr)
-      if (stdout) console.log('\nstdout:\n', stdout)
-    })
+    spawn(
+      'git',
+      ['-c', 'color.ui=always', 'add', ...finalArgs],
+      { stdio: 'inherit' }
+    ).on('exit', code => process.exit(code ?? 0))
   })
 
 program.parse(process.argv)
