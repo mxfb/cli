@@ -11,6 +11,10 @@ const __dirname = path.dirname(__filename)
 program
   .name('@mxfb/cli')
   .description('The home of @mxfb/cli\'s project')
+  .option('-v, --version', 'output the current version')
+  .action(async options => 'version' in options
+    ? await printVersion()
+    : program.help())
   
 program
   .command('list')

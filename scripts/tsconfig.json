@@ -8,7 +8,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "rootDir": ".",
     "noUncheckedIndexedAccess": true,
     "declaration": true

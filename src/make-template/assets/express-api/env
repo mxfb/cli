@@ -1,0 +1,36 @@
+# Mode (development, production)
+MODE=development
+
+# Location
+HOST=localhost:3000
+
+# Database
+DB_USR=db-user
+DB_PWD=db-pwd
+DB_URL=db-url
+DB_OPT=db_opt1=true&db_opt2=false
+
+# Agenda
+DB_RESERVED_AGENDA_JOBS_COLLECTION_NAME=__AgendaJobs
+
+# ROOT User
+ROOT_USER_ID=000000000000000000000000
+ROOT_USER_NAME=ROOT
+ROOT_USER_EMAIL=root@root.com
+ROOT_USER_PWD=rootpwd
+
+# User email validation token
+USER_EMAIL_VALIDATION_TOKEN_LIFETIME_MINUTES=60
+
+# JWT
+JWT_SECRET=jwt-secret
+ACCESS_TOKEN_EXPIRATION_SECONDS=900 # 15 minutes
+ACCESS_TOKEN_RENEWAL_THRESHOLD=300 # 5 minutes
+REFRESH_TOKEN_EXPIRATION_SECONDS=86400 # 1 day
+ACCESS_TOKEN_MAX_REFRESH_COUNT=5
+REFRESH_TOKEN_MAX_REFRESH_COUNT=5
+
+# Emailing
+MAILERSEND_API_KEY=mailersend-api-key
+EMAILER_EMAIL=noreply@noreply.com
+EMAILER_NAME=Noreply
