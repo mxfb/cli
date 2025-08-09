@@ -29,13 +29,12 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@design-edito/tools": "^0.1.73",
-    "@mxfb/tools": "^0.1.1",
+    "@mxfb/tools": "^0.2.3",
+    "commander": "^14.0.0",
     "date-fns": "^3.6.0",
     "jsdom": "^24.0.0",
-    "puppeteer": "^22.6.5",
-    "commander": "^14.0.0",
-    "prompts": "^2.4.2"    
+    "prompts": "^2.4.2",
+    "puppeteer": "^22.6.5"
   },
   "overrides": {
     "ws": ">8.17.0"
