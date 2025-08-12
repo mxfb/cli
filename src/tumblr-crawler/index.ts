@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom'
 import { parse as dateParse } from 'date-fns'
 import { wait } from '@design-edito/tools/agnostic/time/wait/index.js'
 import { round as roundNumbers } from '@design-edito/tools/agnostic/numbers/round/index.js'
-import { beforeForcedExit, beforeExit } from '@design-edito/tools/node/process-exit/index.js'
+import { beforeForcedExit, beforeExit } from '@design-edito/tools/node/process/index.js'
 
 // const browser = await puppeteer.launch()
 // beforeExit(async () => browser.close())
