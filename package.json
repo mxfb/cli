@@ -18,23 +18,22 @@
     "prepublishOnly": "npm run build:src && npm run exec:pre-publish"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.6",
-    "@types/node": "^22.1.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^24.2.1",
     "@types/prompts": "^2.4.9",
-    "@types/puppeteer": "^7.0.4",
-    "@types/semver": "^7.5.8",
-    "esbuild": "^0.23.0",
-    "semver": "^7.6.3",
-    "simple-git": "^3.25.0",
-    "typescript": "^5.5.4"
+    "@types/semver": "^7.7.0",
+    "esbuild": "^0.25.8",
+    "semver": "^7.7.2",
+    "simple-git": "^3.28.0",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@mxfb/tools": "^0.1.1",
-    "commander": "^12.1.0",
-    "date-fns": "^3.6.0",
-    "jsdom": "^24.0.0",
-    "prompts": "^2.4.2",
-    "puppeteer": "^22.6.5"
+    "@design-edito/tools": "^0.2.0",
+    "@mxfb/tools": "^0.3.0",
+    "commander": "^14.0.0",
+    "date-fns": "^4.1.0",
+    "jsdom": "^26.1.0",
+    "prompts": "^2.4.2"
   },
   "overrides": {
     "ws": ">8.17.0"

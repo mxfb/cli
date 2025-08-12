@@ -4,7 +4,7 @@ import path from 'node:path'
 import os from 'node:os'
 import { program } from 'commander'
 import prompts from 'prompts'
-import { getConfig, updateConfig } from '@mxfb/tools/utils/node/mxfb-cli-config/index.js'
+import { getConfig, updateConfig } from '@mxfb/tools/node/mxfb-cli-config/index.js'
 import { spawn } from 'node:child_process'
 
 const __filename = url.fileURLToPath(import.meta.url)
