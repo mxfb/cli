@@ -5,9 +5,9 @@ import prompts from 'prompts'
 import { program } from 'commander'
 import { JSDOM } from 'jsdom'
 import { parse as dateParse } from 'date-fns'
-import wait from '@mxfb/tools/utils/agnostic/wait/index.js'
-import roundNumbers from '@mxfb/tools/utils/agnostic/round-numbers/index.js'
-import { beforeForcedExit, beforeExit } from '@mxfb/tools/utils/node/process-exit/index.js'
+import { wait } from '@design-edito/tools/agnostic/time/wait/index.js'
+import { round as roundNumbers } from '@design-edito/tools/agnostic/numbers/round/index.js'
+import { beforeForcedExit, beforeExit } from '@design-edito/tools/node/process-exit/index.js'
 
 // const browser = await puppeteer.launch()
 // beforeExit(async () => browser.close())
